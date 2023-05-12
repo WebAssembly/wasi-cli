@@ -2944,11 +2944,11 @@ values each time it is called.</p>
 <li><a name="get_directories.0"></a> list&lt;(<a href="#descriptor"><a href="#descriptor"><code>descriptor</code></a></a>, <code>string</code>)&gt;</li>
 </ul>
 <h4><a name="initial_cwd"><code>initial-cwd: func</code></a></h4>
-<p>Return a preopen for use as the program's initial current working
+<p>Return a path that programs should use as their initial current working
 directory, interpreting <code>.</code> as shorthand for this.</p>
 <h5>Return values</h5>
 <ul>
-<li><a name="initial_cwd.0"></a> option&lt;(<a href="#descriptor"><a href="#descriptor"><code>descriptor</code></a></a>, <code>string</code>)&gt;</li>
+<li><a name="initial_cwd.0"></a> option&lt;<code>string</code>&gt;</li>
 </ul>
 <h2><a name="exit">Import interface exit</a></h2>
 <hr />
