@@ -2,42 +2,42 @@
 <ul>
 <li>Imports:
 <ul>
-<li>interface <a href="#wasi:clocks_wall_clock"><code>wasi:clocks/wall-clock</code></a></li>
-<li>interface <a href="#wasi:io_poll"><code>wasi:io/poll</code></a></li>
-<li>interface <a href="#wasi:clocks_monotonic_clock"><code>wasi:clocks/monotonic-clock</code></a></li>
-<li>interface <a href="#wasi:clocks_timezone"><code>wasi:clocks/timezone</code></a></li>
-<li>interface <a href="#wasi:io_streams"><code>wasi:io/streams</code></a></li>
-<li>interface <a href="#wasi:filesystem_types"><code>wasi:filesystem/types</code></a></li>
-<li>interface <a href="#wasi:filesystem_preopens"><code>wasi:filesystem/preopens</code></a></li>
-<li>interface <a href="#wasi:sockets_network"><code>wasi:sockets/network</code></a></li>
-<li>interface <a href="#wasi:sockets_instance_network"><code>wasi:sockets/instance-network</code></a></li>
-<li>interface <a href="#wasi:sockets_ip_name_lookup"><code>wasi:sockets/ip-name-lookup</code></a></li>
-<li>interface <a href="#wasi:sockets_tcp"><code>wasi:sockets/tcp</code></a></li>
-<li>interface <a href="#wasi:sockets_tcp_create_socket"><code>wasi:sockets/tcp-create-socket</code></a></li>
-<li>interface <a href="#wasi:sockets_udp"><code>wasi:sockets/udp</code></a></li>
-<li>interface <a href="#wasi:sockets_udp_create_socket"><code>wasi:sockets/udp-create-socket</code></a></li>
-<li>interface <a href="#wasi:random_random"><code>wasi:random/random</code></a></li>
-<li>interface <a href="#wasi:random_insecure"><code>wasi:random/insecure</code></a></li>
-<li>interface <a href="#wasi:random_insecure_seed"><code>wasi:random/insecure-seed</code></a></li>
-<li>interface <a href="#wasi:cli_environment"><code>wasi:cli/environment</code></a></li>
-<li>interface <a href="#wasi:cli_exit"><code>wasi:cli/exit</code></a></li>
-<li>interface <a href="#wasi:cli_stdin"><code>wasi:cli/stdin</code></a></li>
-<li>interface <a href="#wasi:cli_stdout"><code>wasi:cli/stdout</code></a></li>
-<li>interface <a href="#wasi:cli_stderr"><code>wasi:cli/stderr</code></a></li>
-<li>interface <a href="#wasi:cli_terminal_input"><code>wasi:cli/terminal-input</code></a></li>
-<li>interface <a href="#wasi:cli_terminal_output"><code>wasi:cli/terminal-output</code></a></li>
-<li>interface <a href="#wasi:cli_terminal_stdin"><code>wasi:cli/terminal-stdin</code></a></li>
-<li>interface <a href="#wasi:cli_terminal_stdout"><code>wasi:cli/terminal-stdout</code></a></li>
-<li>interface <a href="#wasi:cli_terminal_stderr"><code>wasi:cli/terminal-stderr</code></a></li>
+<li>interface <a href="#wasi:clocks_wall_clock_0.2.0_rc_2023_11_10"><code>wasi:clocks/wall-clock@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:io_poll_0.2.0_rc_2023_11_10"><code>wasi:io/poll@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:clocks_monotonic_clock_0.2.0_rc_2023_11_10"><code>wasi:clocks/monotonic-clock@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:io_error_0.2.0_rc_2023_11_10"><code>wasi:io/error@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:io_streams_0.2.0_rc_2023_11_10"><code>wasi:io/streams@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:filesystem_types_0.2.0_rc_2023_11_10"><code>wasi:filesystem/types@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:filesystem_preopens_0.2.0_rc_2023_11_10"><code>wasi:filesystem/preopens@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:sockets_network_0.2.0_rc_2023_11_10"><code>wasi:sockets/network@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:sockets_instance_network_0.2.0_rc_2023_11_10"><code>wasi:sockets/instance-network@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:sockets_ip_name_lookup_0.2.0_rc_2023_11_10"><code>wasi:sockets/ip-name-lookup@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:sockets_tcp_0.2.0_rc_2023_11_10"><code>wasi:sockets/tcp@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:sockets_tcp_create_socket_0.2.0_rc_2023_11_10"><code>wasi:sockets/tcp-create-socket@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:sockets_udp_0.2.0_rc_2023_11_10"><code>wasi:sockets/udp@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:sockets_udp_create_socket_0.2.0_rc_2023_11_10"><code>wasi:sockets/udp-create-socket@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:random_random_0.2.0_rc_2023_11_10"><code>wasi:random/random@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:random_insecure_0.2.0_rc_2023_11_10"><code>wasi:random/insecure@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:random_insecure_seed_0.2.0_rc_2023_11_10"><code>wasi:random/insecure-seed@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_environment_0.2.0_rc_2023_11_10"><code>wasi:cli/environment@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_exit_0.2.0_rc_2023_11_10"><code>wasi:cli/exit@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_stdin_0.2.0_rc_2023_11_10"><code>wasi:cli/stdin@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_stdout_0.2.0_rc_2023_11_10"><code>wasi:cli/stdout@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_stderr_0.2.0_rc_2023_11_10"><code>wasi:cli/stderr@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_terminal_input_0.2.0_rc_2023_11_10"><code>wasi:cli/terminal-input@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_terminal_output_0.2.0_rc_2023_11_10"><code>wasi:cli/terminal-output@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_terminal_stdin_0.2.0_rc_2023_11_10"><code>wasi:cli/terminal-stdin@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_terminal_stdout_0.2.0_rc_2023_11_10"><code>wasi:cli/terminal-stdout@0.2.0-rc-2023-11-10</code></a></li>
+<li>interface <a href="#wasi:cli_terminal_stderr_0.2.0_rc_2023_11_10"><code>wasi:cli/terminal-stderr@0.2.0-rc-2023-11-10</code></a></li>
 </ul>
 </li>
 <li>Exports:
 <ul>
-<li>interface <a href="#wasi:cli_run"><code>wasi:cli/run</code></a></li>
+<li>interface <a href="#wasi:cli_run_0.2.0_rc_2023_11_10"><code>wasi:cli/run@0.2.0-rc-2023-11-10</code></a></li>
 </ul>
 </li>
 </ul>
-<h2><a name="wasi:clocks_wall_clock">Import interface wasi:clocks/wall-clock</a></h2>
+<h2><a name="wasi:clocks_wall_clock_0.2.0_rc_2023_11_10">Import interface wasi:clocks/wall-clock@0.2.0-rc-2023-11-10</a></h2>
 <p>WASI Wall Clock is a clock API intended to let users query the current
 time. The name &quot;wall&quot; makes an analogy to a &quot;clock on the wall&quot;, which
 is not necessarily monotonic as it may be reset.</p>
@@ -78,7 +78,7 @@ also known as <a href="https://en.wikipedia.org/wiki/Unix_time">Unix Time</a>.</
 <ul>
 <li><a name="resolution.0"></a> <a href="#datetime"><a href="#datetime"><code>datetime</code></a></a></li>
 </ul>
-<h2><a name="wasi:io_poll">Import interface wasi:io/poll</a></h2>
+<h2><a name="wasi:io_poll_0.2.0_rc_2023_11_10">Import interface wasi:io/poll@0.2.0-rc-2023-11-10</a></h2>
 <p>A poll API intended to let users wait for I/O events on multiple handles
 at once.</p>
 <hr />
@@ -128,7 +128,7 @@ being reaedy for I/O.</p>
 <ul>
 <li><a name="poll.0"></a> list&lt;<code>u32</code>&gt;</li>
 </ul>
-<h2><a name="wasi:clocks_monotonic_clock">Import interface wasi:clocks/monotonic-clock</a></h2>
+<h2><a name="wasi:clocks_monotonic_clock_0.2.0_rc_2023_11_10">Import interface wasi:clocks/monotonic-clock@0.2.0-rc-2023-11-10</a></h2>
 <p>WASI Monotonic Clock is a clock API intended to let users measure elapsed
 time.</p>
 <p>It is intended to be portable at least between Unix-family platforms and
@@ -189,83 +189,41 @@ occured.</p>
 <ul>
 <li><a name="subscribe_duration.0"></a> own&lt;<a href="#pollable"><a href="#pollable"><code>pollable</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:clocks_timezone">Import interface wasi:clocks/timezone</a></h2>
+<h2><a name="wasi:io_error_0.2.0_rc_2023_11_10">Import interface wasi:io/error@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
-<h4><a name="datetime"><code>type datetime</code></a></h4>
-<p><a href="#datetime"><a href="#datetime"><code>datetime</code></a></a></p>
-<p>
-#### <a name="timezone_display">`record timezone-display`</a>
-<p>Information useful for displaying the timezone of a specific <a href="#datetime"><code>datetime</code></a>.</p>
-<p>This information may vary within a single <code>timezone</code> to reflect daylight
-saving time adjustments.</p>
-<h5>Record Fields</h5>
-<ul>
-<li>
-<p><a name="timezone_display.utc_offset"><a href="#utc_offset"><code>utc-offset</code></a></a>: <code>s32</code></p>
-<p>The number of seconds difference between UTC time and the local
-time of the timezone.
-<p>The returned value will always be less than 86400 which is the
-number of seconds in a day (24<em>60</em>60).</p>
-<p>In implementations that do not expose an actual time zone, this
-should return 0.</p>
-</li>
-<li>
-<p><a name="timezone_display.name"><code>name</code></a>: <code>string</code></p>
-<p>The abbreviated name of the timezone to display to a user. The name
-`UTC` indicates Coordinated Universal Time. Otherwise, this should
-reference local standards for the name of the time zone.
-<p>In implementations that do not expose an actual time zone, this
-should be the string <code>UTC</code>.</p>
-<p>In time zones that do not have an applicable name, a formatted
-representation of the UTC offset may be returned, such as <code>-04:00</code>.</p>
-</li>
-<li>
-<p><a name="timezone_display.in_daylight_saving_time"><code>in-daylight-saving-time</code></a>: <code>bool</code></p>
-<p>Whether daylight saving time is active.
-<p>In implementations that do not expose an actual time zone, this
-should return false.</p>
-</li>
-</ul>
+<h4><a name="error"><code>resource error</code></a></h4>
 <hr />
 <h3>Functions</h3>
-<h4><a name="display"><code>display: func</code></a></h4>
-<p>Return information needed to display the given <a href="#datetime"><code>datetime</code></a>. This includes
-the UTC offset, the time zone name, and a flag indicating whether
-daylight saving time is active.</p>
-<p>If the timezone cannot be determined for the given <a href="#datetime"><code>datetime</code></a>, return a
-<a href="#timezone_display"><code>timezone-display</code></a> for <code>UTC</code> with a <a href="#utc_offset"><code>utc-offset</code></a> of 0 and no daylight
-saving time.</p>
+<h4><a name="method_error.to_debug_string"><code>[method]error.to-debug-string: func</code></a></h4>
+<p>Returns a string that is suitable to assist humans in debugging
+this error.</p>
+<p>WARNING: The returned string should not be consumed mechanically!
+It may change across platforms, hosts, or other implementation
+details. Parsing this string is a major platform-compatibility
+hazard.</p>
 <h5>Params</h5>
 <ul>
-<li><a name="display.when"><code>when</code></a>: <a href="#datetime"><a href="#datetime"><code>datetime</code></a></a></li>
+<li><a name="method_error.to_debug_string.self"><code>self</code></a>: borrow&lt;<a href="#error"><a href="#error"><code>error</code></a></a>&gt;</li>
 </ul>
 <h5>Return values</h5>
 <ul>
-<li><a name="display.0"></a> <a href="#timezone_display"><a href="#timezone_display"><code>timezone-display</code></a></a></li>
+<li><a name="method_error.to_debug_string.0"></a> <code>string</code></li>
 </ul>
-<h4><a name="utc_offset"><code>utc-offset: func</code></a></h4>
-<p>The same as <a href="#display"><code>display</code></a>, but only return the UTC offset.</p>
-<h5>Params</h5>
-<ul>
-<li><a name="utc_offset.when"><code>when</code></a>: <a href="#datetime"><a href="#datetime"><code>datetime</code></a></a></li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a name="utc_offset.0"></a> <code>s32</code></li>
-</ul>
-<h2><a name="wasi:io_streams">Import interface wasi:io/streams</a></h2>
+<h2><a name="wasi:io_streams_0.2.0_rc_2023_11_10">Import interface wasi:io/streams@0.2.0-rc-2023-11-10</a></h2>
 <p>WASI I/O is an I/O abstraction API which is currently focused on providing
 stream types.</p>
 <p>In the future, the component model is expected to add built-in stream types;
 when it does, they are expected to subsume this API.</p>
 <hr />
 <h3>Types</h3>
-<h4><a name="pollable"><code>type pollable</code></a></h4>
-<p><a href="#pollable"><a href="#pollable"><code>pollable</code></a></a></p>
+<h4><a name="error"><code>type error</code></a></h4>
+<p><a href="#error"><a href="#error"><code>error</code></a></a></p>
 <p>
-#### <a name="error">`resource error`</a>
-<h4><a name="stream_error"><code>variant stream-error</code></a></h4>
+#### <a name="pollable">`type pollable`</a>
+[`pollable`](#pollable)
+<p>
+#### <a name="stream_error">`variant stream-error`</a>
 <p>An error for input-stream and output-stream operations.</p>
 <h5>Variant Cases</h5>
 <ul>
@@ -285,20 +243,6 @@ future operations.
 <h4><a name="output_stream"><code>resource output-stream</code></a></h4>
 <hr />
 <h3>Functions</h3>
-<h4><a name="method_error.to_debug_string"><code>[method]error.to-debug-string: func</code></a></h4>
-<p>Returns a string that's suitable to assist humans in debugging this
-error.</p>
-<p>The returned string will change across platforms and hosts which
-means that parsing it, for example, would be a
-platform-compatibility hazard.</p>
-<h5>Params</h5>
-<ul>
-<li><a name="method_error.to_debug_string.self"><code>self</code></a>: borrow&lt;<a href="#error"><a href="#error"><code>error</code></a></a>&gt;</li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a name="method_error.to_debug_string.0"></a> <code>string</code></li>
-</ul>
 <h4><a name="method_input_stream.read"><code>[method]input-stream.read: func</code></a></h4>
 <p>Perform a non-blocking read from the stream.</p>
 <p>This function returns a list of bytes containing the read data,
@@ -569,7 +513,7 @@ is ready for reading, before performing the <code>splice</code>.</p>
 <ul>
 <li><a name="method_output_stream.blocking_splice.0"></a> result&lt;<code>u64</code>, <a href="#stream_error"><a href="#stream_error"><code>stream-error</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:filesystem_types">Import interface wasi:filesystem/types</a></h2>
+<h2><a name="wasi:filesystem_types_0.2.0_rc_2023_11_10">Import interface wasi:filesystem/types@0.2.0-rc-2023-11-10</a></h2>
 <p>WASI filesystem is a filesystem API primarily intended to let users run WASI
 programs that access their files on their existing filesystems, without
 significant overhead.</p>
@@ -720,40 +664,6 @@ expanded.
 <li>
 <p><a name="open_flags.truncate"><code>truncate</code></a>: </p>
 <p>Truncate file to size 0, similar to `O_TRUNC` in POSIX.
-</li>
-</ul>
-<h4><a name="modes"><code>flags modes</code></a></h4>
-<p>Permissions mode used by <code>open-at</code>, <code>change-file-permissions-at</code>, and
-similar.</p>
-<h5>Flags members</h5>
-<ul>
-<li>
-<p><a name="modes.readable"><code>readable</code></a>: </p>
-<p>True if the resource is considered readable by the containing
-filesystem.
-</li>
-<li>
-<p><a name="modes.writable"><code>writable</code></a>: </p>
-<p>True if the resource is considered writable by the containing
-filesystem.
-</li>
-<li>
-<p><a name="modes.executable"><code>executable</code></a>: </p>
-<p>True if the resource is considered executable by the containing
-filesystem. This does not apply to directories.
-</li>
-</ul>
-<h4><a name="access_type"><code>variant access-type</code></a></h4>
-<p>Access type used by <code>access-at</code>.</p>
-<h5>Variant Cases</h5>
-<ul>
-<li>
-<p><a name="access_type.access"><code>access</code></a>: <a href="#modes"><a href="#modes"><code>modes</code></a></a></p>
-<p>Test for readability, writeability, or executability.
-</li>
-<li>
-<p><a name="access_type.exists"><code>exists</code></a></p>
-<p>Test whether the path exists.
 </li>
 </ul>
 <h4><a name="link_count"><code>type link-count</code></a></h4>
@@ -1324,7 +1234,6 @@ contains <code>truncate</code> or <code>create</code>, and the base descriptor d
 <li><a name="method_descriptor.open_at.path"><code>path</code></a>: <code>string</code></li>
 <li><a name="method_descriptor.open_at.open_flags"><a href="#open_flags"><code>open-flags</code></a></a>: <a href="#open_flags"><a href="#open_flags"><code>open-flags</code></a></a></li>
 <li><a name="method_descriptor.open_at.flags"><code>flags</code></a>: <a href="#descriptor_flags"><a href="#descriptor_flags"><code>descriptor-flags</code></a></a></li>
-<li><a name="method_descriptor.open_at.modes"><a href="#modes"><code>modes</code></a></a>: <a href="#modes"><a href="#modes"><code>modes</code></a></a></li>
 </ul>
 <h5>Return values</h5>
 <ul>
@@ -1386,25 +1295,6 @@ filesystem, this function fails with <a href="#error_code.not_permitted"><code>e
 <ul>
 <li><a name="method_descriptor.symlink_at.0"></a> result&lt;_, <a href="#error_code"><a href="#error_code"><code>error-code</code></a></a>&gt;</li>
 </ul>
-<h4><a name="method_descriptor.access_at"><code>[method]descriptor.access-at: func</code></a></h4>
-<p>Check accessibility of a filesystem path.</p>
-<p>Check whether the given filesystem path names an object which is
-readable, writable, or executable, or whether it exists.</p>
-<p>This does not a guarantee that subsequent accesses will succeed, as
-filesystem permissions may be modified asynchronously by external
-entities.</p>
-<p>Note: This is similar to <code>faccessat</code> with the <code>AT_EACCESS</code> flag in POSIX.</p>
-<h5>Params</h5>
-<ul>
-<li><a name="method_descriptor.access_at.self"><code>self</code></a>: borrow&lt;<a href="#descriptor"><a href="#descriptor"><code>descriptor</code></a></a>&gt;</li>
-<li><a name="method_descriptor.access_at.path_flags"><a href="#path_flags"><code>path-flags</code></a></a>: <a href="#path_flags"><a href="#path_flags"><code>path-flags</code></a></a></li>
-<li><a name="method_descriptor.access_at.path"><code>path</code></a>: <code>string</code></li>
-<li><a name="method_descriptor.access_at.type"><code>type</code></a>: <a href="#access_type"><a href="#access_type"><code>access-type</code></a></a></li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a name="method_descriptor.access_at.0"></a> result&lt;_, <a href="#error_code"><a href="#error_code"><code>error-code</code></a></a>&gt;</li>
-</ul>
 <h4><a name="method_descriptor.unlink_file_at"><code>[method]descriptor.unlink-file-at: func</code></a></h4>
 <p>Unlink a filesystem object that is not a directory.</p>
 <p>Return <a href="#error_code.is_directory"><code>error-code::is-directory</code></a> if the path refers to a directory.
@@ -1417,41 +1307,6 @@ Note: This is similar to <code>unlinkat(fd, path, 0)</code> in POSIX.</p>
 <h5>Return values</h5>
 <ul>
 <li><a name="method_descriptor.unlink_file_at.0"></a> result&lt;_, <a href="#error_code"><a href="#error_code"><code>error-code</code></a></a>&gt;</li>
-</ul>
-<h4><a name="method_descriptor.change_file_permissions_at"><code>[method]descriptor.change-file-permissions-at: func</code></a></h4>
-<p>Change the permissions of a filesystem object that is not a directory.</p>
-<p>Note that the ultimate meanings of these permissions is
-filesystem-specific.</p>
-<p>Note: This is similar to <code>fchmodat</code> in POSIX.</p>
-<h5>Params</h5>
-<ul>
-<li><a name="method_descriptor.change_file_permissions_at.self"><code>self</code></a>: borrow&lt;<a href="#descriptor"><a href="#descriptor"><code>descriptor</code></a></a>&gt;</li>
-<li><a name="method_descriptor.change_file_permissions_at.path_flags"><a href="#path_flags"><code>path-flags</code></a></a>: <a href="#path_flags"><a href="#path_flags"><code>path-flags</code></a></a></li>
-<li><a name="method_descriptor.change_file_permissions_at.path"><code>path</code></a>: <code>string</code></li>
-<li><a name="method_descriptor.change_file_permissions_at.modes"><a href="#modes"><code>modes</code></a></a>: <a href="#modes"><a href="#modes"><code>modes</code></a></a></li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a name="method_descriptor.change_file_permissions_at.0"></a> result&lt;_, <a href="#error_code"><a href="#error_code"><code>error-code</code></a></a>&gt;</li>
-</ul>
-<h4><a name="method_descriptor.change_directory_permissions_at"><code>[method]descriptor.change-directory-permissions-at: func</code></a></h4>
-<p>Change the permissions of a directory.</p>
-<p>Note that the ultimate meanings of these permissions is
-filesystem-specific.</p>
-<p>Unlike in POSIX, the <code>executable</code> flag is not reinterpreted as a &quot;search&quot;
-flag. <code>read</code> on a directory implies readability and searchability, and
-<code>execute</code> is not valid for directories.</p>
-<p>Note: This is similar to <code>fchmodat</code> in POSIX.</p>
-<h5>Params</h5>
-<ul>
-<li><a name="method_descriptor.change_directory_permissions_at.self"><code>self</code></a>: borrow&lt;<a href="#descriptor"><a href="#descriptor"><code>descriptor</code></a></a>&gt;</li>
-<li><a name="method_descriptor.change_directory_permissions_at.path_flags"><a href="#path_flags"><code>path-flags</code></a></a>: <a href="#path_flags"><a href="#path_flags"><code>path-flags</code></a></a></li>
-<li><a name="method_descriptor.change_directory_permissions_at.path"><code>path</code></a>: <code>string</code></li>
-<li><a name="method_descriptor.change_directory_permissions_at.modes"><a href="#modes"><code>modes</code></a></a>: <a href="#modes"><a href="#modes"><code>modes</code></a></a></li>
-</ul>
-<h5>Return values</h5>
-<ul>
-<li><a name="method_descriptor.change_directory_permissions_at.0"></a> result&lt;_, <a href="#error_code"><a href="#error_code"><code>error-code</code></a></a>&gt;</li>
 </ul>
 <h4><a name="method_descriptor.is_same_object"><code>[method]descriptor.is-same-object: func</code></a></h4>
 <p>Test whether two descriptors refer to the same filesystem object.</p>
@@ -1535,7 +1390,7 @@ errors are filesystem-related errors.</p>
 <ul>
 <li><a name="filesystem_error_code.0"></a> option&lt;<a href="#error_code"><a href="#error_code"><code>error-code</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:filesystem_preopens">Import interface wasi:filesystem/preopens</a></h2>
+<h2><a name="wasi:filesystem_preopens_0.2.0_rc_2023_11_10">Import interface wasi:filesystem/preopens@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="descriptor"><code>type descriptor</code></a></h4>
@@ -1549,7 +1404,7 @@ errors are filesystem-related errors.</p>
 <ul>
 <li><a name="get_directories.0"></a> list&lt;(own&lt;<a href="#descriptor"><a href="#descriptor"><code>descriptor</code></a></a>&gt;, <code>string</code>)&gt;</li>
 </ul>
-<h2><a name="wasi:sockets_network">Import interface wasi:sockets/network</a></h2>
+<h2><a name="wasi:sockets_network_0.2.0_rc_2023_11_10">Import interface wasi:sockets/network@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="network"><code>resource network</code></a></h4>
@@ -1760,7 +1615,7 @@ combined with a couple of errors that are always possible:</p>
 <li><a name="ip_socket_address.ipv4"><code>ipv4</code></a>: <a href="#ipv4_socket_address"><a href="#ipv4_socket_address"><code>ipv4-socket-address</code></a></a></li>
 <li><a name="ip_socket_address.ipv6"><code>ipv6</code></a>: <a href="#ipv6_socket_address"><a href="#ipv6_socket_address"><code>ipv6-socket-address</code></a></a></li>
 </ul>
-<h2><a name="wasi:sockets_instance_network">Import interface wasi:sockets/instance-network</a></h2>
+<h2><a name="wasi:sockets_instance_network_0.2.0_rc_2023_11_10">Import interface wasi:sockets/instance-network@0.2.0-rc-2023-11-10</a></h2>
 <p>This interface provides a value-export of the default network handle..</p>
 <hr />
 <h3>Types</h3>
@@ -1775,7 +1630,7 @@ combined with a couple of errors that are always possible:</p>
 <ul>
 <li><a name="instance_network.0"></a> own&lt;<a href="#network"><a href="#network"><code>network</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:sockets_ip_name_lookup">Import interface wasi:sockets/ip-name-lookup</a></h2>
+<h2><a name="wasi:sockets_ip_name_lookup_0.2.0_rc_2023_11_10">Import interface wasi:sockets/ip-name-lookup@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="pollable"><code>type pollable</code></a></h4>
@@ -1871,7 +1726,7 @@ It's planned to be removed when <code>future</code> is natively supported in Pre
 <ul>
 <li><a name="method_resolve_address_stream.subscribe.0"></a> own&lt;<a href="#pollable"><a href="#pollable"><code>pollable</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:sockets_tcp">Import interface wasi:sockets/tcp</a></h2>
+<h2><a name="wasi:sockets_tcp_0.2.0_rc_2023_11_10">Import interface wasi:sockets/tcp@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="input_stream"><code>type input-stream</code></a></h4>
@@ -2351,7 +2206,7 @@ operations on the <a href="#output_stream"><code>output-stream</code></a> associ
 <ul>
 <li><a name="method_tcp_socket.shutdown.0"></a> result&lt;_, <a href="#error_code"><a href="#error_code"><code>error-code</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:sockets_tcp_create_socket">Import interface wasi:sockets/tcp-create-socket</a></h2>
+<h2><a name="wasi:sockets_tcp_create_socket_0.2.0_rc_2023_11_10">Import interface wasi:sockets/tcp-create-socket@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="network"><code>type network</code></a></h4>
@@ -2396,7 +2251,7 @@ is called, the socket is effectively an in-memory configuration object, unable t
 <ul>
 <li><a name="create_tcp_socket.0"></a> result&lt;own&lt;<a href="#tcp_socket"><a href="#tcp_socket"><code>tcp-socket</code></a></a>&gt;, <a href="#error_code"><a href="#error_code"><code>error-code</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:sockets_udp">Import interface wasi:sockets/udp</a></h2>
+<h2><a name="wasi:sockets_udp_0.2.0_rc_2023_11_10">Import interface wasi:sockets/udp@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="pollable"><code>type pollable</code></a></h4>
@@ -2758,7 +2613,7 @@ It's planned to be removed when <code>future</code> is natively supported in Pre
 <ul>
 <li><a name="method_udp_socket.subscribe.0"></a> own&lt;<a href="#pollable"><a href="#pollable"><code>pollable</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:sockets_udp_create_socket">Import interface wasi:sockets/udp-create-socket</a></h2>
+<h2><a name="wasi:sockets_udp_create_socket_0.2.0_rc_2023_11_10">Import interface wasi:sockets/udp-create-socket@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="network"><code>type network</code></a></h4>
@@ -2803,7 +2658,7 @@ the socket is effectively an in-memory configuration object, unable to communica
 <ul>
 <li><a name="create_udp_socket.0"></a> result&lt;own&lt;<a href="#udp_socket"><a href="#udp_socket"><code>udp-socket</code></a></a>&gt;, <a href="#error_code"><a href="#error_code"><code>error-code</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:random_random">Import interface wasi:random/random</a></h2>
+<h2><a name="wasi:random_random_0.2.0_rc_2023_11_10">Import interface wasi:random/random@0.2.0-rc-2023-11-10</a></h2>
 <p>WASI Random is a random data API.</p>
 <p>It is intended to be portable at least between Unix-family platforms and
 Windows.</p>
@@ -2836,7 +2691,7 @@ represented as a <code>u64</code>.</p>
 <ul>
 <li><a name="get_random_u64.0"></a> <code>u64</code></li>
 </ul>
-<h2><a name="wasi:random_insecure">Import interface wasi:random/insecure</a></h2>
+<h2><a name="wasi:random_insecure_0.2.0_rc_2023_11_10">Import interface wasi:random/insecure@0.2.0-rc-2023-11-10</a></h2>
 <p>The insecure interface for insecure pseudo-random numbers.</p>
 <p>It is intended to be portable at least between Unix-family platforms and
 Windows.</p>
@@ -2865,7 +2720,7 @@ a long period.</p>
 <ul>
 <li><a name="get_insecure_random_u64.0"></a> <code>u64</code></li>
 </ul>
-<h2><a name="wasi:random_insecure_seed">Import interface wasi:random/insecure-seed</a></h2>
+<h2><a name="wasi:random_insecure_seed_0.2.0_rc_2023_11_10">Import interface wasi:random/insecure-seed@0.2.0-rc-2023-11-10</a></h2>
 <p>The insecure-seed interface for seeding hash-map DoS resistance.</p>
 <p>It is intended to be portable at least between Unix-family platforms and
 Windows.</p>
@@ -2889,7 +2744,7 @@ protection.</p>
 <ul>
 <li><a name="insecure_seed.0"></a> (<code>u64</code>, <code>u64</code>)</li>
 </ul>
-<h2><a name="wasi:cli_environment">Import interface wasi:cli/environment</a></h2>
+<h2><a name="wasi:cli_environment_0.2.0_rc_2023_11_10">Import interface wasi:cli/environment@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Functions</h3>
 <h4><a name="get_environment"><code>get-environment: func</code></a></h4>
@@ -2916,7 +2771,7 @@ directory, interpreting <code>.</code> as shorthand for this.</p>
 <ul>
 <li><a name="initial_cwd.0"></a> option&lt;<code>string</code>&gt;</li>
 </ul>
-<h2><a name="wasi:cli_exit">Import interface wasi:cli/exit</a></h2>
+<h2><a name="wasi:cli_exit_0.2.0_rc_2023_11_10">Import interface wasi:cli/exit@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Functions</h3>
 <h4><a name="exit"><code>exit: func</code></a></h4>
@@ -2925,7 +2780,7 @@ directory, interpreting <code>.</code> as shorthand for this.</p>
 <ul>
 <li><a name="exit.status"><code>status</code></a>: result</li>
 </ul>
-<h2><a name="wasi:cli_stdin">Import interface wasi:cli/stdin</a></h2>
+<h2><a name="wasi:cli_stdin_0.2.0_rc_2023_11_10">Import interface wasi:cli/stdin@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="input_stream"><code>type input-stream</code></a></h4>
@@ -2938,7 +2793,7 @@ directory, interpreting <code>.</code> as shorthand for this.</p>
 <ul>
 <li><a name="get_stdin.0"></a> own&lt;<a href="#input_stream"><a href="#input_stream"><code>input-stream</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:cli_stdout">Import interface wasi:cli/stdout</a></h2>
+<h2><a name="wasi:cli_stdout_0.2.0_rc_2023_11_10">Import interface wasi:cli/stdout@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="output_stream"><code>type output-stream</code></a></h4>
@@ -2951,7 +2806,7 @@ directory, interpreting <code>.</code> as shorthand for this.</p>
 <ul>
 <li><a name="get_stdout.0"></a> own&lt;<a href="#output_stream"><a href="#output_stream"><code>output-stream</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:cli_stderr">Import interface wasi:cli/stderr</a></h2>
+<h2><a name="wasi:cli_stderr_0.2.0_rc_2023_11_10">Import interface wasi:cli/stderr@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="output_stream"><code>type output-stream</code></a></h4>
@@ -2964,15 +2819,15 @@ directory, interpreting <code>.</code> as shorthand for this.</p>
 <ul>
 <li><a name="get_stderr.0"></a> own&lt;<a href="#output_stream"><a href="#output_stream"><code>output-stream</code></a></a>&gt;</li>
 </ul>
-<h2><a name="wasi:cli_terminal_input">Import interface wasi:cli/terminal-input</a></h2>
+<h2><a name="wasi:cli_terminal_input_0.2.0_rc_2023_11_10">Import interface wasi:cli/terminal-input@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="terminal_input"><code>resource terminal-input</code></a></h4>
-<h2><a name="wasi:cli_terminal_output">Import interface wasi:cli/terminal-output</a></h2>
+<h2><a name="wasi:cli_terminal_output_0.2.0_rc_2023_11_10">Import interface wasi:cli/terminal-output@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Types</h3>
 <h4><a name="terminal_output"><code>resource terminal-output</code></a></h4>
-<h2><a name="wasi:cli_terminal_stdin">Import interface wasi:cli/terminal-stdin</a></h2>
+<h2><a name="wasi:cli_terminal_stdin_0.2.0_rc_2023_11_10">Import interface wasi:cli/terminal-stdin@0.2.0-rc-2023-11-10</a></h2>
 <p>An interface providing an optional <a href="#terminal_input"><code>terminal-input</code></a> for stdin as a
 link-time authority.</p>
 <hr />
@@ -2989,7 +2844,7 @@ allowing further interaction with it.</p>
 <ul>
 <li><a name="get_terminal_stdin.0"></a> option&lt;own&lt;<a href="#terminal_input"><a href="#terminal_input"><code>terminal-input</code></a></a>&gt;&gt;</li>
 </ul>
-<h2><a name="wasi:cli_terminal_stdout">Import interface wasi:cli/terminal-stdout</a></h2>
+<h2><a name="wasi:cli_terminal_stdout_0.2.0_rc_2023_11_10">Import interface wasi:cli/terminal-stdout@0.2.0-rc-2023-11-10</a></h2>
 <p>An interface providing an optional <a href="#terminal_output"><code>terminal-output</code></a> for stdout as a
 link-time authority.</p>
 <hr />
@@ -3006,7 +2861,7 @@ allowing further interaction with it.</p>
 <ul>
 <li><a name="get_terminal_stdout.0"></a> option&lt;own&lt;<a href="#terminal_output"><a href="#terminal_output"><code>terminal-output</code></a></a>&gt;&gt;</li>
 </ul>
-<h2><a name="wasi:cli_terminal_stderr">Import interface wasi:cli/terminal-stderr</a></h2>
+<h2><a name="wasi:cli_terminal_stderr_0.2.0_rc_2023_11_10">Import interface wasi:cli/terminal-stderr@0.2.0-rc-2023-11-10</a></h2>
 <p>An interface providing an optional <a href="#terminal_output"><code>terminal-output</code></a> for stderr as a
 link-time authority.</p>
 <hr />
@@ -3023,7 +2878,7 @@ allowing further interaction with it.</p>
 <ul>
 <li><a name="get_terminal_stderr.0"></a> option&lt;own&lt;<a href="#terminal_output"><a href="#terminal_output"><code>terminal-output</code></a></a>&gt;&gt;</li>
 </ul>
-<h2><a name="wasi:cli_run">Export interface wasi:cli/run</a></h2>
+<h2><a name="wasi:cli_run_0.2.0_rc_2023_11_10">Export interface wasi:cli/run@0.2.0-rc-2023-11-10</a></h2>
 <hr />
 <h3>Functions</h3>
 <h4><a name="run"><code>run: func</code></a></h4>
