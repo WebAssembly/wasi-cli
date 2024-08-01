@@ -22,4 +22,4 @@ jobs:
       with:
         wit-bindgen: '0.28.0'
         worlds: 'command imports'
-	      features: 'exit-with-code'
+        features: 'cli-exit-with-code'
