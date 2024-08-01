@@ -21,4 +21,5 @@ jobs:
     - uses: WebAssembly/wit-abi-up-to-date@v17
       with:
         wit-bindgen: '0.16.0'
-        worlds: "command imports"
+        worlds: 'command imports'
+	features: 'exit-with-code'
