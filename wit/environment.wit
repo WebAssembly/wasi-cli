@@ -19,4 +19,8 @@ interface environment {
   /// directory, interpreting `.` as shorthand for this.
   @since(version = 0.2.0)
   initial-cwd: func() -> option<string>;
+
+  /// Return a path that programs should use as their tmp directory.
+  @unstable(feature = tmp-dir)
+  tmp-dir: func() -> option<string>;
 }
