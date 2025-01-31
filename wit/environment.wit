@@ -22,5 +22,5 @@ interface environment {
 
   /// Return a path that programs should use as their tmp directory.
   @unstable(feature = tmp-dir)
-  tmp-dir: func() -> option<string>;
+  temporary-directory: func() -> option<string>;
 }
