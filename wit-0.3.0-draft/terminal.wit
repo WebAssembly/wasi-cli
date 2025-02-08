@@ -1,39 +1,48 @@
 /// Support for terminal input.
 ///
-/// This adds support for a set of terminal control APIs and "ANSI"-style
-/// escape sequences and control codes. It is intended to be implementable on a
-/// wide variety of platforms, and support the most common features used by
-/// terminal applications.
+/// This defines APIs for controlling "termios" attributes affecting input,
+/// as well as control codes and "ANSI"-style escape sequences for terminal
+/// input streams.
 ///
-/// This specificaion effectively requires implementations to parse the
-/// input and output bytestreams and translate escape sequences and control
-/// codes to ensure consistent behavior. Implementations shall not permit
-/// arbitrary escape sequences to be communicated between applications and
-/// virtual terminals.
+/// This specification requires implementations to parse the output bytestreams
+/// and translate escape sequences and control codes to ensure consistent
+/// behavior. Implementations shall not permit arbitrary escape sequences to be
+/// communicated between applications and virtual terminals.
 ///
 /// All terminal input and output is encoded in UTF-8. No 8-bit
-/// "externded ASCII" control code encodings are recognized. On input to
+/// "extended ASCII" control code encodings are recognized. On input to
 /// applications, any bytes which are not valid UTF-8 are replaced with the
-/// replacement character U+FFFD, following the [UTF-8 decoder] algorithm in
-/// the [WHATWG Encoding spec], with an [error mode] of "replacement". On
-/// output from applications, any bytes which are not valid UTF-8 evoke a
-/// trap, following the [UTF-8 decoder] algorithm in the
-/// [WHATWG Encoding spec], with an [error mode] of "fatal".
+/// UTF-8 encoding of U+FFFD (REPLACEMENT CHARACTER), following the
+/// [UTF-8 decoder] algorithm in the [WHATWG Encoding spec], with an
+/// [error mode] of "replacement". On output from applications, any bytes which
+/// are not valid UTF-8 evoke a trap, following the [UTF-8 decoder] algorithm
+/// in the [WHATWG Encoding spec], with an [error mode] of "fatal".
+///
+/// Any UTF-8 encoding of a Unicode control code other than U+1B (ESC) that is
+/// not defined below for terminal input in the active mode shall be replaced
+/// by the UTF-8 encoding of U+FFFD (REPLACEMENT CHARACTER).
+///
+/// Any sequence beginning with the UTF-8 encoding of U+1B (ESC) and matching
+/// the UTF-8 encoding of any of the following regular expressions shall be
+/// silently removed from the stream:
+///
+/// * `U+1B U+5B [U+20–U+3F]* U+6D`
+/// * `[U+1B]+ U+5B U+5B [U+–U+7F]?`
+/// * `[U+1B]+ U+5B [U+20–U+3F]* [U+40–U+7E]?`
+/// * `[U+1B]+ U+5D [^U+7,U+18,U+1B]* [U+7,U+18]?`
+/// * `[U+1B]+ [U+40–U+7E]?`
+///
+/// This is intended to carve out a space for possible escape sequences so that
+/// new sequences may be defined without breaking backwards compatibility.
+///
+/// In the tables below, "terminfo" refers to the long form of the equivalent
+/// terminfo capability, "ti" refers to the short form of the equivalent
+/// terminfo capability, and "tc" refers to the equivalent termcap name.
+/// A "\*" indicates that there is no simple equivalent.
 ///
 /// [UTF-8 decoder]: https://encoding.spec.whatwg.org/#utf-8-decoder
 /// [WHATWG Encoding algorithm]: https://encoding.spec.whatwg.org/
 /// [error mode]: https://encoding.spec.whatwg.org/#error-mode
-///
-/// TODO: define lexing and behavior of unrecognized escape codes.
-/// TODO: define behavior for unrecognized control codes
-///
-/// See the comments on the `terminal-output` interface for more background
-/// on terminal support.
-///
-/// In the tables, "terminfo" refers to the long form of the equivalent
-/// terminfo capability, "ti" refers to the short form of the equivalent
-/// terminfo capability, and "tc" refers to the equivalent termcap name.
-/// A "\*" indicates that there is no simple equivalent.
 @since(version = 0.3.0)
 interface terminal-input {
     /// The input side of a terminal.
@@ -109,21 +118,14 @@ interface terminal-input {
 
 /// Support for terminal output.
 ///
-/// This includes support for a basic terminal interactions, including
-/// functions for getting and setting basic "termios" terminal attributes, and
-/// support for control codes and "ANSI" escape sequences.
+/// This defines APIs for controlling "termios" attributes affecting output,
+/// as well as control codes and "ANSI"-style escape sequences for terminal
+/// output streams.
 ///
-/// The "ANSI" here refers to ANSI X3.64, which later became ECMA-48
-/// (ISO/IEC 6429). However, ECMA-48 was last updated in 1991, it has many
-/// features which are no longer relevant, it has no awareness of Unicode
-/// or UTF-8, it leaves many behaviors implementation-dependent, and it lacks
-/// many extensions that modern implementations have added and have become
-/// popular in modern use cases. So while this "ANSI" is the original source
-/// for a lot of the terminology used, it's not a normative reference.
-///
-/// For now, out of practicality, this document starts by describing features
-/// which are widely supported and widely used in modern implementations and
-/// use cases. Over time, this could grow to become more complete.
+/// As with `terminal-input`, implementations are required to parse the
+/// bytestreams, the bytestreams are encoded in UTF-8, control codes other
+/// than U+1B (ESC) are replaced with U+FFFD, and undefined escape sequences
+/// are silently removed.
 @since(version = 0.3.0)
 interface terminal-output {
     /// The output side of a terminal.
@@ -159,7 +161,49 @@ interface terminal-output {
         /// escape sequences for displaying color are supported. The "OSC 4"
         /// method of detecting color is not supported.
         ///
-        /// TODO: document `␛[…m` and `␛[48;2;«r»;«g»;«b»m`.
+        /// The following additional escape sequences are defined in
+        /// implementations which declare `ansi` color support:
+        ///
+        /// Escape sequences:
+        ///
+        /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
+        /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
+        /// | `␛[«attrs»m` | Set the foreground and/or background color       | set_attributes | sgr | sa |
+        ///
+        /// `«attrs»` is a semicolon-separated list of color atttributes:
+        ///
+        /// | Foreground | Background | Color | 
+        /// | ---- | ---- | ---- | 
+        /// | `30` | `40` | Black | 
+        /// | `31` | `41` | Red |  |
+        /// | `32` | `42` | Green | 
+        /// | `33` | `43` | Yellow | 
+        /// | `34` | `44` | Blue | 
+        /// | `35` | `45` | Magenta  |
+        /// | `36` | `46` | Cyan  |
+        /// | `37` | `47` | White |
+        /// | `90` | `100` | Bright Black (Gray) |
+        /// | `91` | `101` | Bright Red | 
+        /// | `92` | `102` | Bright Green  |
+        /// | `93` | `103` | Bright Yellow | 
+        /// | `94` | `104` | Bright Blue  |
+        /// | `95` | `105` | Bright Magenta | 
+        /// | `96` | `106` | Bright Cyan  |
+        /// | `97` | `107` | Bright White |
+        ///
+        /// The following additional escape sequences are defined in
+        /// implementations which declare `truecolor` color support:
+        ///
+        /// Escape sequences:
+        ///
+        /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
+        /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
+        /// | `␛[38;2;«r»;«g»;«b»m` | Set the foreground color to rgb(«r»,«g»,«b») | set_attributes | sgr | sa |
+        /// | `␛[48;2;«r»;«g»;«b»m` | Set the background color to rgb(«r»,«g»,«b») | set_attributes | sgr | sa |
+        ///
+        /// `«r»`, `«g»`, and `«b»` are decimal-formatted integer values
+        /// in the range [0,256) and represent the red, green, and blue
+        /// components of an rgb color.
         color: func() -> color-flags;
 
         /// Does this terminal support line-editing features?
@@ -171,7 +215,7 @@ interface terminal-output {
         /// functionality commonly used for command-line prompts.
         ///
         /// The following additional control codes and escape sequences are
-        /// defined in implementations which declare line-enditing support:
+        /// defined in implementations which declare line-editing support:
         ///
         /// Control codes:
         ///
@@ -246,10 +290,9 @@ interface terminal-output {
     flags color-flags {
         /// Are the classic "4-bit color" escape sequences supported?
         ///
-        /// This indicates support for up to 16 colors, on foreground and
-        /// background, using the widely-supported (and ECMA-48) "SGR"
-        /// color escape sequences of the form `␛[…m`. See
-        /// [here] for more information.
+        /// This indicates support for 16 colors, on foreground and background,
+        /// using the widely-supported (and ECMA-48) "SGR" color escape
+        /// sequences of the form `␛[…m`. See [here] for more information.
         ///
         /// Before using color in your user interface, also consider
         /// checking `color-desired` to obtain the user's preference for
@@ -260,7 +303,7 @@ interface terminal-output {
 
         /// Are the 24-bit "true color" escape sequences supported?
         ///
-        /// This indicates support for up to 16 colors, on foreground and
+        /// This indicates support over 16 million colors, on foreground and
         /// background, using "true color" escape sequences of the form
         /// `␛[38;2;«r»;«g»;«b»m` (foreground) and `␛[48;2;«r»;«g»;«b»m`
         /// (background). The `«r»`, `«g»`, and `«b»` fields are integers
