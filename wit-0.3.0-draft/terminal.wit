@@ -274,7 +274,7 @@ interface terminal-output {
         /// [here]: https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit
         truecolor,
 
-        /// Does the user with color to be used by default?
+        /// Does the user want color to be used by default?
         ///
         /// Some users have a terminal which supports color, but prefer
         /// applications not use it by default; this flag indicates
