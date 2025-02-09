@@ -85,6 +85,7 @@ interface terminal-input {
     /// | `␛[D`        | Left                                                 | key_left  | kcub1 | kl |
     /// | `␛[F`        | End                                                  | key_end   | kend  | @7 |
     /// | `␛[H`        | Home                                                 | key_home  | khome | kh |
+    /// | `␛[Z`        | Shift-Tab                                            | key_btab  | kcbt  | kB |
     /// | `␛[2~`       | Insert                                               | key_ic    | kich1 | kI |
     /// | `␛[3~`       | Delete                                               | key_dc    | kdch1 | kD |
     /// | `␛[5~`       | Page Up                                              | key_ppage | kpp   | kP |
