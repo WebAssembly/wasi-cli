@@ -180,6 +180,17 @@ interface terminal-output {
     /// resources are created and dropped. Implementations are encouraged to
     /// ensure that if log messages are also being written to the terminal,
     /// that they not be permitted to be obscured by terminal manipulation.
+    ///
+    /// Output is always postprocessed: U+8 moves the cursor back one column,
+    /// U+9 does the horizontal-tab thing, and U+A performs a line feed and a
+    /// carriage return (`stty opost onlcr -onlret -ocrnl -onocr`).
+    ///
+    /// Terminals may also assign other meanings to other control codes and
+    /// apply other output translations; output is recommended to
+    /// support lowercase (`stty -olcuc`).
+    ///
+    /// By default, terminals are not in full-screen mode or bracketed paste
+    /// mode.
     @since(version = 0.3.0)
     resource terminal-output {
         /// Return the current number of rows and columns in the terminal.
