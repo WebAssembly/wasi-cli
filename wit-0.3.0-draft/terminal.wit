@@ -115,7 +115,7 @@ interface terminal-input {
     ///
     /// | Code | Meaning                                                      | terminfo  | ti    | tc |
     /// | ---- | ------------------------------------------------------------ | --------- | ----- | -- |
-    /// | U+C  | Request to refresh the screen                                | key_refresh krfr  | &2 |
+    /// | U+C  | Refresh the screen                                           | key_refresh | krfr | &2 |
     /// | U+1B | Escape                                                       | \*        | \*    | \* |
     ///
     /// TODO: Should we say that, in immediate mode, every sequence is followed
