@@ -60,9 +60,10 @@ interface terminal-input {
     /// | U+8  | Ctrl-H; despite U+8 being historically called "backspace" in ASCII, this isn't the backspace key | key_left | kcub1 | kl |
     /// | U+9  | Tab                                                          | \*        | \*    | \* |
     /// | U+A  | Enter                                                        | key_enter | kent  | @8 |
-    /// | U+C  | Ctrl-L, in immediate mode, requests applications refresh the screen | key_clear | kclr | kC |
-    /// | U+1B | Escape, in immediate mode,                                   | \*        | \*    | \* |
     /// | U+7F | Backspace; this is the backspace key                         | key_backspace | kbs | kb |
+    ///
+    /// Additionally, all other C0 control codes that are not otherwise defined
+    /// are defined for terminal input with their ASCII control-key meaning.
     ///
     /// Escape sequences:
     ///
@@ -92,6 +93,25 @@ interface terminal-input {
     /// | `␛[24~`      | F12                                                  | key_f12   | kf12  | F2 |
     /// | `␛[200~`     | Begin Paste; only emitted when bracketed paste mode is activated | PS | PS | \* |
     /// | `␛[201~`     | End Paste; only emitted when bracketed paste mode is activated | PE | PS | \* |
+    ///
+    /// In immediate mode, the following additional control codes are defined
+    /// for input:
+    ///
+    /// Control codes:
+    ///
+    /// | Code | Meaning                                                      | terminfo  | ti    | tc |
+    /// | ---- | ------------------------------------------------------------ | --------- | ----- | -- |
+    /// | U+C  | Request to refresh the screen                                | key_refresh krfr  | &2 |
+    /// | U+1B | Escape                                                       | \*        | \*    | \* |
+    ///
+    /// In non-immediate mode, the following additional control codes are
+    /// defined for input:
+    ///
+    /// Control codes:
+    ///
+    /// | Code | Meaning                                                      | terminfo  | ti    | tc |
+    /// | ---- | ------------------------------------------------------------ | --------- | ----- | -- |
+    /// | U+D  | Enter                                                        | key_enter | kent  | @8 |
     @since(version = 0.3.0)
     resource terminal-input {
         /// Enable or disable *immediate* mode.
