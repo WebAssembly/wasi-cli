@@ -51,7 +51,13 @@ interface terminal-input {
     /// resources are created and dropped.
     ///
     /// In non-immediate mode, a user Ctrl-M keypress is sent to the
-    /// application as U+A instead of U+D.
+    /// application as U+A instead of U+D (`stty icrnl -inlcr`).
+    ///
+    /// Terminals may also assign other meanings to other control codes and
+    /// apply other input translations; non-immediate mode is recommended to
+    /// use line buffering (`stty icanon`), support UTF-8 input
+    /// (`stty iutf8 -istrip cs8`), support uppercase (`stty -iuclc` if
+    /// applicable), and support common signal behavior (`stty isig`).
     ///
     /// The following control codes and escape sequences are defined for
     /// terminal input:
@@ -119,7 +125,22 @@ interface terminal-input {
         ///
         /// Immediate mode makes input key sequences available to be read on
         /// the input stream immediately, rather than buffering them up
-        /// until the end of the line is seen.
+        /// until the end of the line is seen (`stty -icanon`), and Ctrl-M is
+        /// not translated to U+A (`stty -icrnl -inlcr`).
+        ///
+        /// Terminals may also assign other meanings to other control codes and
+        /// apply other input translations; immediate mode is recommended to
+        /// support UTF-8 input (`stty iutf8 -istrip cs8`), support uppercase
+        /// (`stty -iuclc` if applicable), disable common signal behavior
+        /// (`stty -isig`), and disable XON/XOFF control flow (`stty -ixon`).
+        ///
+        /// Immediate mode does not imply disabling echoing of input; see
+        /// `set-echo` to control echoing.
+        ///
+        /// TODO: Disabling common signal behavior (`stty -isig`) is an
+        /// interesting question; do we really want untrusted code to be able
+        /// to disable Ctrl-C and Ctrl-Z? On the other hand, applications like
+        /// Emacs depend on being able to read Ctrl-C and Ctrl-Z.
         ///
         /// This may fail if the implementation doesn't support immediate mode.
         set-immediate: func(mode: bool) -> result;
