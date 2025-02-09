@@ -343,8 +343,8 @@ interface terminal-output {
         /// sequences of the form `␛[…m`. See [here] for more information.
         ///
         /// Before using color in your user interface, also consider
-        /// checking `color-desired` to obtain the user's preference for
-        /// enabling color by default.
+        /// checking `color-desired-by-default` to obtain the user's preference
+        /// for enabling color by default.
         ///
         /// [here]: https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
         ansi,
@@ -359,8 +359,8 @@ interface terminal-output {
         /// respectively. See [here] for more information.
         ///
         /// Before using color in your user interface, also consider
-        /// checking `color-desired` to obtain the user's preference for
-        /// enabling color by default.
+        /// checking `color-desired-by-default` to obtain the user's preference
+        /// for enabling color by default.
         ///
         /// [here]: https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit
         truecolor,
