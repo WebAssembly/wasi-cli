@@ -122,7 +122,7 @@ interface terminal-input {
     /// component-model spec yet, so there are no answers yet.
     @since(version = 0.3.0)
     resource terminal-input {
-        /// Enable or disable *immediate* mode.
+        /// Enable or disable *immediate mode*.
         ///
         /// Immediate mode makes input key sequences available to be read on
         /// the input stream immediately, rather than buffering them up
@@ -146,7 +146,7 @@ interface terminal-input {
         /// This may fail if the implementation doesn't support immediate mode.
         set-immediate: func(mode: bool) -> result;
 
-        /// Disable or enable *echo* mode.
+        /// Disable or enable *echo mode*.
         ///
         /// Echo mode retransmits input key sequences back to the output of the
         /// terminal, so that users can see what they're typing. Echoing is the
@@ -317,7 +317,7 @@ interface terminal-output {
         /// | `␛[«row»;«column»f` | Move the cursor to row `«row»` and column `«column»` | cursor_address | cup | cm |
         /// | `␛[?25h`    | Set the cursor as visible                         | cursor_visible | cvvis | vs |
         /// | `␛[?1049h`  | Clear the screen and reset full-screen settings to defaults | enter_ca_mode | smcup | ti |
-        /// | `␛[?2004h`  | Begin bracketed paste mode                        | BE        | BE | \* |
+        /// | `␛[?2004h`  | Begin *bracketed paste mode*                      | BE        | BE | \* |
         /// | `␛[?25l`    | Set the cursor as invisible                       | cursor_invisible | civis | vi |
         /// | `␛[?1049l`  | Exit full-screen mode and restore the terminal to its prior state | exit_ca_mode | rmcup | te |
         /// | `␛[?2004l`  | End bracketed paste mode                          | BD        | BD    | \* |
