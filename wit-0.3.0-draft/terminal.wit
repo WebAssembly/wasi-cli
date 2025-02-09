@@ -189,8 +189,34 @@ interface terminal-output {
     /// apply other output translations; output is recommended to
     /// support lowercase (`stty -olcuc`).
     ///
+    /// The following control codes and escape sequences are defined for
+    /// terminal output:
+    ///
+    /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
+    /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
+    /// | `␛[?25l` | Set the cursor as invisible                          | cursor_invisible | civis | vi |
+    /// | `␛[?25h` | Set the cursor as visible                            | cursor_visible | cvvis | vs |
+    /// | `␛[?2004h` | Begin *bracketed paste mode*                       | BE        | BE | \* |
+    /// | `␛[?2004l` | End bracketed paste mode                           | BD        | BD | \* |
+    /// | `␛[«attrs»m` | Set terminal attributes                          | set_attributes | sgr | sa |
+    ///
+    /// `«attrs»` is a semicolon-separated list of decimal-formatted integer
+    /// values from the following list, identifying attributes:
+    ///
+    /// | Attribute | Meaning |
+    /// | --------  | ------- |
+    /// | `0`       | Reset all attributes to default settings |
+    /// | `1`       | Bold    |
+    /// | `2`       | Faint   |
+    ///
+    /// An empty list also resets all attributes to default settings. This
+    /// includes reseting the colors to defaults, if colors are supported.
+    ///
+    /// (Additional attributes for color are defined in the documentation for the `color`
+    /// function.)
+    ///
     /// By default, terminals are not in full-screen mode or bracketed paste
-    /// mode.
+    /// mode, the cursor is visible, and all attributes are set to defaults.
     @since(version = 0.3.0)
     resource terminal-output {
         /// Return the current number of rows and columns in the terminal.
@@ -252,6 +278,8 @@ interface terminal-output {
         /// | `95` | `105` | Bright Magenta |
         /// | `96` | `106` | Bright Cyan  |
         /// | `97` | `107` | Bright White |
+        ///
+        /// As always, an empty list resets all attributes to default settings.
         ///
         /// The following additional escape sequences are defined in
         /// implementations which declare `truecolor` color support:
@@ -332,12 +360,8 @@ interface terminal-output {
         /// | `␛[2J`      | Clear the whole screen                            | clear_screen | clear | cl |
         /// | `␛[«n»d`    | Move the cursor to row `«n»`                      | row_address | vpa | cv |
         /// | `␛[«row»;«column»f` | Move the cursor to row `«row»` and column `«column»` | cursor_address | cup | cm |
-        /// | `␛[?25h`    | Set the cursor as visible                         | cursor_visible | cvvis | vs |
         /// | `␛[?1049h`  | Clear the screen and reset full-screen settings to defaults | enter_ca_mode | smcup | ti |
-        /// | `␛[?2004h`  | Begin *bracketed paste mode*                      | BE        | BE | \* |
-        /// | `␛[?25l`    | Set the cursor as invisible                       | cursor_invisible | civis | vi |
         /// | `␛[?1049l`  | Exit full-screen mode and restore the terminal to its prior state | exit_ca_mode | rmcup | te |
-        /// | `␛[?2004l`  | End bracketed paste mode                          | BD        | BD    | \* |
         /// | `␛[!p`      | Reset the terminal to default settings, without clearing the screen | \* | \* | \* |
         full-screen-supported: func() -> bool;
     }
