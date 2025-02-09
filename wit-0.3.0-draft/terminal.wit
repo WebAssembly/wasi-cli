@@ -193,9 +193,12 @@ interface terminal-output {
 
         /// Return a `stream` listening for window size changes.
         ///
-        /// This `stream` produces empty values when the window size changes.
-        /// On implementations which don't support size changes, it never
-        /// produces any values.
+        /// This `stream` produces empty values when the window size changes,
+        /// or when the application is resumed from having been suspended.
+        /// (These correspond to `SIGWINCH` and `SIGCONT` in Unix.)
+        ///
+        /// On implementations which don't support size changes or suspending,
+        /// it never produces any values.
         size-changes: func() -> stream;
 
         /// What kinds of colors are supported, and preferred?
