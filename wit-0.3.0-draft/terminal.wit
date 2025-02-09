@@ -307,10 +307,10 @@ interface terminal-output {
         ///
         /// | Sequence    | Meaning                                           | terminfo  | ti    | tc |
         /// | ----------- | ------------------------------------------------- | --------- | ----- | -- |
-        /// | `␛[«n»A`    | Move the cursor up `«n»` rows                     | cursor_up | cuu1  | up |
-        /// | `␛[«n»B`    | Move the cursor down `«n»` rows                   | cursor_down | cud1 | do |
-        /// | `␛[«n»C`    | Move the cursor right `«n»` column                | cursor_right | cuf1 | nd |
-        /// | `␛[«n»D`    | Move the cursor left `«n»` columns                | cursor_left | cub1 | le |
+        /// | `␛[«n»A`    | Move the cursor up `«n»` rows                     | parm_up_cursor | cuu  | UP |
+        /// | `␛[«n»B`    | Move the cursor down `«n»` rows                   | parm_down_cursor | cud | DO |
+        /// | `␛[«n»C`    | Move the cursor right `«n»` column                | parm_right_cursor | cuf | RI |
+        /// | `␛[«n»D`    | Move the cursor left `«n»` columns                | parm_left_cursor | cub | LE |
         /// | `␛[«n»G`    | Move the cursor to column `«n»`                   | column_address | hpa | ch |
         /// | `␛[«row»;«column»H` | Move the cursor to row `«row»` and column `«column»` | cursor_address | cup | cm |
         /// | `␛[0J`      | Clear from the cursor to the end of the screen    | clr_eos   | ed    | cd |
