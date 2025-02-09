@@ -300,7 +300,7 @@ interface terminal-output {
         ///
         /// | Sequence    | Meaning                                           | terminfo  | ti    | tc |
         /// | ----------- | ------------------------------------------------- | --------- | ----- | -- |
-        /// | `␛[?1049h`  | Enter full-screen mode                            | enter_ca_mode | smcup | ti |
+        /// | `␛[?1049h`  | Enter *full-screen mode*                          | enter_ca_mode | smcup | ti |
         ///
         /// The following additional control codes and escape sequences are
         /// defined when full-screen mode has been entered:
