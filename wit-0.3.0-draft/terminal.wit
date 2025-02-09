@@ -107,6 +107,12 @@ interface terminal-input {
     /// | ---- | ------------------------------------------------------------ | --------- | ----- | -- |
     /// | U+C  | Request to refresh the screen                                | key_refresh krfr  | &2 |
     /// | U+1B | Escape                                                       | \*        | \*    | \* |
+    ///
+    /// TODO: Should we say that, in immediate mode, every sequence is followed
+    /// by a stream lull? That would make it possible to distinguish between a
+    /// bare Escape and an escape sequence. However, is it ok to depend on lulls
+    /// for semantic purposes like this? Lulls haven't yet been proposed to the
+    /// component-model spec yet, so there are no answers yet.
     @since(version = 0.3.0)
     resource terminal-input {
         /// Enable or disable *immediate* mode.
