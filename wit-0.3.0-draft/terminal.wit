@@ -229,6 +229,8 @@ interface terminal-output {
         ///
         /// Not all terminals have a set size, and not all that do know their
         /// size, so this function may fail if the size cannot be determined.
+        /// This function may succeed when `window-size` fails, as the terminal
+        /// width may sometimes be known even when the height is not.
         window-columns: func() -> result<u16>;
 
         /// Return a `stream` listening for window size changes.
