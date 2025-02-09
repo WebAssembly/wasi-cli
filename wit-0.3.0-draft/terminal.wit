@@ -272,6 +272,7 @@ interface terminal-output {
         /// | `35` | `45` | Magenta  |
         /// | `36` | `46` | Cyan  |
         /// | `37` | `47` | White |
+        /// | `39` | `49` | Default (terminal's choice) |
         /// | `90` | `100` | Bright Black (Gray) |
         /// | `91` | `101` | Bright Red |
         /// | `92` | `102` | Bright Green  |
