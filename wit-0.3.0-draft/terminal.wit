@@ -338,6 +338,10 @@ interface terminal-output {
         /// reflects the functionality commonly used for interactive terminal
         /// user interfaces.
         ///
+        /// When full-screen mode is entered, the contents of the screen are
+        /// saved and the screen is cleared. When exiting full-screen mode,
+        /// the saved contents are restored.
+        ///
         /// The following additional control codes and escape sequences are
         /// defined in implementations which declare full-screen support:
         ///
