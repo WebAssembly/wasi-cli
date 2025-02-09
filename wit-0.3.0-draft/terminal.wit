@@ -212,24 +212,26 @@ interface terminal-output {
         /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
         /// | `␛[«attrs»m` | Set the foreground and/or background color       | set_attributes | sgr | sa |
         ///
-        /// `«attrs»` is a semicolon-separated list of color atttributes:
+        /// `«attrs»` is a semicolon-separated list of decimal-formatted
+        /// integer values from the following list, identifying color
+        /// attributes:
         ///
-        /// | Foreground | Background | Color | 
-        /// | ---- | ---- | ---- | 
-        /// | `30` | `40` | Black | 
+        /// | Foreground | Background | Color |
+        /// | ---- | ---- | ---- |
+        /// | `30` | `40` | Black |
         /// | `31` | `41` | Red |  |
-        /// | `32` | `42` | Green | 
-        /// | `33` | `43` | Yellow | 
-        /// | `34` | `44` | Blue | 
+        /// | `32` | `42` | Green |
+        /// | `33` | `43` | Yellow |
+        /// | `34` | `44` | Blue |
         /// | `35` | `45` | Magenta  |
         /// | `36` | `46` | Cyan  |
         /// | `37` | `47` | White |
         /// | `90` | `100` | Bright Black (Gray) |
-        /// | `91` | `101` | Bright Red | 
+        /// | `91` | `101` | Bright Red |
         /// | `92` | `102` | Bright Green  |
-        /// | `93` | `103` | Bright Yellow | 
+        /// | `93` | `103` | Bright Yellow |
         /// | `94` | `104` | Bright Blue  |
-        /// | `95` | `105` | Bright Magenta | 
+        /// | `95` | `105` | Bright Magenta |
         /// | `96` | `106` | Bright Cyan  |
         /// | `97` | `107` | Bright White |
         ///
