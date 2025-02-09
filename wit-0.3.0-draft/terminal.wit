@@ -59,6 +59,9 @@ interface terminal-input {
     /// (`stty iutf8 -istrip cs8`), support uppercase (`stty -iuclc` if
     /// applicable), and support common signal behavior (`stty isig`).
     ///
+    /// By default, terminal input is in echo mode (`stty echo -echonl`) and
+    /// not in immediate mode (`stty icanon`).
+    ///
     /// The following control codes and escape sequences are defined for
     /// terminal input:
     ///
