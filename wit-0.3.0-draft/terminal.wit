@@ -73,7 +73,7 @@ interface terminal-input {
     ///
     /// Additionally, all other C0 control codes except U+D that are not
     /// otherwise defined are defined for terminal input with their ASCII
-    /// control-key meaning.
+    /// control-key meaning (eg. Ctrl-A).
     ///
     /// Escape sequences:
     ///
