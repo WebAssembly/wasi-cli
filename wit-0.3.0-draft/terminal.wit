@@ -50,6 +50,9 @@ interface terminal-input {
     /// Implementations must reset terminals to default settings when terminal
     /// resources are created and dropped.
     ///
+    /// In non-immediate mode, a user Ctrl-M keypress is sent to the
+    /// application as U+A instead of U+D.
+    ///
     /// The following control codes and escape sequences are defined for
     /// terminal input:
     ///
@@ -62,8 +65,9 @@ interface terminal-input {
     /// | U+A  | Enter                                                        | key_enter | kent  | @8 |
     /// | U+7F | Backspace; this is the backspace key                         | key_backspace | kbs | kb |
     ///
-    /// Additionally, all other C0 control codes that are not otherwise defined
-    /// are defined for terminal input with their ASCII control-key meaning.
+    /// Additionally, all other C0 control codes except U+D that are not
+    /// otherwise defined are defined for terminal input with their ASCII
+    /// control-key meaning.
     ///
     /// Escape sequences:
     ///
@@ -103,15 +107,6 @@ interface terminal-input {
     /// | ---- | ------------------------------------------------------------ | --------- | ----- | -- |
     /// | U+C  | Request to refresh the screen                                | key_refresh krfr  | &2 |
     /// | U+1B | Escape                                                       | \*        | \*    | \* |
-    ///
-    /// In non-immediate mode, the following additional control codes are
-    /// defined for input:
-    ///
-    /// Control codes:
-    ///
-    /// | Code | Meaning                                                      | terminfo  | ti    | tc |
-    /// | ---- | ------------------------------------------------------------ | --------- | ----- | -- |
-    /// | U+D  | Enter                                                        | key_enter | kent  | @8 |
     @since(version = 0.3.0)
     resource terminal-input {
         /// Enable or disable *immediate* mode.
