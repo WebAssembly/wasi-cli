@@ -12,11 +12,10 @@
 /// All terminal input streams are encoded in UTF-8. No 8-bit "extended ASCII"
 /// control code encodings are recognized. Any bytes which are not valid UTF-8
 /// are replaced with the UTF-8 encoding of U+FFFD (REPLACEMENT CHARACTER),
-/// following the [UTF-8 decoder] algorithm in the [WHATWG Encoding spec], with
-/// an [error mode] of "replacement".
+/// following the [U+FFFD Substitution of Maximal Subparts] algorithm.
 ///
-/// Also, any UTF-8 encoding of a Unicode control code other than U+1B (ESC)
-/// that is not recognized shall also be replaced by the UTF-8 encoding of
+/// Also, any UTF-8 encoding of a [Unicode control code] that is not recognized
+/// shall also be replaced by the UTF-8 encoding of
 /// U+FFFD (REPLACEMENT CHARACTER).
 ///
 /// To reserve space for future escape sequences, any sequence that is not
@@ -34,9 +33,8 @@
 /// terminfo capability, and "tc" refers to the equivalent termcap name.
 /// A "\*" indicates that there is no simple equivalent.
 ///
-/// [UTF-8 decoder]: https://encoding.spec.whatwg.org/#utf-8-decoder
-/// [WHATWG Encoding algorithm]: https://encoding.spec.whatwg.org/
-/// [error mode]: https://encoding.spec.whatwg.org/#error-mode
+/// [U+FFFD Substitution of Maximal Subparts]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-3/#G66453
+/// [Unicode control code]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-23/#G20365
 @since(version = 0.3.0)
 interface terminal-input {
     /// The input side of a terminal.
@@ -175,11 +173,12 @@ interface terminal-input {
 ///
 /// All terminal output streams are encoded in UTF-8. No 8-bit "extended ASCII"
 /// control code encodings are recognized. Any bytes which are not valid UTF-8
-/// evoke a trap, following the [UTF-8 decoder] algorithm in the
-/// [WHATWG Encoding spec], with an [error mode] of "fatal".
+/// are replaced with the UTF-8 encoding of U+FFFD (REPLACEMENT CHARACTER),
+/// following the [U+FFFD Substitution of Maximal Subparts] algorithm.
 ///
-/// Also, any UTF-8 encoding of a Unicode control code other than U+1B (ESC)
-/// that is not recognized shall also evoke a trap.
+/// Also, any UTF-8 encoding of a [Unicode control code] that is not recognized
+/// shall also be replaced by the UTF-8 encoding of
+/// U+FFFD (REPLACEMENT CHARACTER).
 ///
 /// To reserve space for future escape sequences, any sequence that is not
 /// recognized, and that matches the UTF-8 encoding of any of the following
@@ -196,9 +195,8 @@ interface terminal-input {
 /// terminfo capability, and "tc" refers to the equivalent termcap name.
 /// A "\*" indicates that there is no simple equivalent.
 ///
-/// [UTF-8 decoder]: https://encoding.spec.whatwg.org/#utf-8-decoder
-/// [WHATWG Encoding algorithm]: https://encoding.spec.whatwg.org/
-/// [error mode]: https://encoding.spec.whatwg.org/#error-mode
+/// [U+FFFD Substitution of Maximal Subparts]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-3/#G66453
+/// [Unicode control code]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-23/#G20365
 @since(version = 0.3.0)
 interface terminal-output {
     /// The output side of a terminal.
