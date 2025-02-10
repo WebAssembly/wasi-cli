@@ -194,6 +194,8 @@ interface terminal-input {
 /// terminfo capability, and "tc" refers to the equivalent termcap name.
 /// A "\*" indicates that there is no simple equivalent.
 ///
+/// TODO: Describe wrapping, scrolling, and multi-column glyphs.
+///
 /// [U+FFFD Substitution of Maximal Subparts]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-3/#G66453
 /// [Unicode control code]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-23/#G20365
 @since(version = 0.3.0)
