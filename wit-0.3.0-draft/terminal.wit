@@ -1,39 +1,33 @@
 /// Support for terminal input.
 ///
 /// This defines APIs for controlling "termios" attributes affecting input,
-/// as well as control codes and "ANSI"-style escape sequences for terminal
-/// input streams.
+/// as well as control codes and "ANSI"-style escape sequences identifying
+/// key-presses and other input events.
 ///
-/// This specification requires implementations to parse the output bytestreams
+/// This specification requires implementations to parse the input bytestreams
 /// and translate escape sequences and control codes to ensure consistent
 /// behavior. Implementations shall not permit arbitrary escape sequences to be
 /// communicated between applications and virtual terminals.
 ///
-/// All terminal input and output is encoded in UTF-8. No 8-bit
-/// "extended ASCII" control code encodings are recognized. On input to
-/// applications, any bytes which are not valid UTF-8 are replaced with the
-/// UTF-8 encoding of U+FFFD (REPLACEMENT CHARACTER), following the
-/// [UTF-8 decoder] algorithm in the [WHATWG Encoding spec], with an
-/// [error mode] of "replacement". On output from applications, any bytes which
-/// are not valid UTF-8 evoke a trap, following the [UTF-8 decoder] algorithm
-/// in the [WHATWG Encoding spec], with an [error mode] of "fatal".
+/// All terminal input streams are encoded in UTF-8. No 8-bit "extended ASCII"
+/// control code encodings are recognized. Any bytes which are not valid UTF-8
+/// are replaced with the UTF-8 encoding of U+FFFD (REPLACEMENT CHARACTER),
+/// following the [UTF-8 decoder] algorithm in the [WHATWG Encoding spec], with
+/// an [error mode] of "replacement".
 ///
-/// Any UTF-8 encoding of a Unicode control code other than U+1B (ESC) that is
-/// not defined below for terminal input in the active mode shall be replaced
-/// by the UTF-8 encoding of U+FFFD (REPLACEMENT CHARACTER).
+/// Also, any UTF-8 encoding of a Unicode control code other than U+1B (ESC)
+/// that is not recognized shall also be replaced by the UTF-8 encoding of
+/// U+FFFD (REPLACEMENT CHARACTER).
 ///
-/// Any sequence beginning with the UTF-8 encoding of U+1B (ESC) and matching
-/// the UTF-8 encoding of any of the following regular expressions shall be
-/// silently removed from the stream:
+/// To reserve space for future escape sequences, any sequence that is not
+/// recognized, and that matches the UTF-8 encoding of any of the following
+/// regular expressions, shall be silently removed from the stream:
 ///
 /// * `U+1B U+5B [U+20–U+3F]* U+6D`
 /// * `[U+1B]+ U+5B U+5B [U+–U+7F]?`
 /// * `[U+1B]+ U+5B [U+20–U+3F]* [U+40–U+7E]?`
 /// * `[U+1B]+ U+5D [^U+7,U+18,U+1B]* [U+7,U+18]?`
 /// * `[U+1B]+ [U+40–U+7E]?`
-///
-/// This is intended to carve out a space for possible escape sequences so that
-/// new sequences may be defined without breaking backwards compatibility.
 ///
 /// In the tables below, "terminfo" refers to the long form of the equivalent
 /// terminfo capability, "ti" refers to the short form of the equivalent
@@ -50,22 +44,23 @@ interface terminal-input {
     /// Implementations must reset terminals to default settings when terminal
     /// resources are created and dropped.
     ///
-    /// In non-immediate mode, a user Ctrl-M keypress is sent to the
+    /// Except when in immediate mode, a user Ctrl-M keypress is sent to the
     /// application as U+A instead of U+D (`stty icrnl -inlcr`).
     ///
     /// Terminals may also assign other meanings to other control codes and
-    /// apply other input translations; non-immediate mode is recommended to
-    /// use line buffering (`stty icanon`), support UTF-8 input
-    /// (`stty iutf8 -istrip cs8`), support uppercase (`stty -iuclc` if
-    /// applicable), and support common signal behavior (`stty isig`).
+    /// apply other input translations; when not in immediate mode,
+    /// implementations are recommended to use line buffering (`stty icanon`),
+    /// support UTF-8 input (`stty iutf8 -istrip cs8`), support uppercase
+    /// (`stty -iuclc` if applicable), and support common signal behavior
+    /// (`stty isig`).
     ///
     /// By default, terminal input is in echo mode (`stty echo -echonl`) and
     /// not in immediate mode (`stty icanon`).
     ///
     /// # Control codes and escape sequences
     ///
-    /// The following control codes and escape sequences are defined for
-    /// terminal input in all modes.
+    /// The following control codes and escape sequences are recognized in all
+    /// modes.
     ///
     /// ## Control codes
     ///
@@ -77,8 +72,8 @@ interface terminal-input {
     /// | U+7F | Backspace; this is the backspace key                         | key_backspace | kbs | kb |
     ///
     /// Additionally, all other C0 control codes except U+D that are not
-    /// otherwise defined are defined for terminal input with their ASCII
-    /// control-key meaning (eg. Ctrl-A).
+    /// otherwise recognized are recognized with their ASCII control-key
+    /// meaning (eg. Ctrl-A).
     ///
     /// ## Escape sequences
     ///
@@ -137,7 +132,7 @@ interface terminal-input {
         /// # Control codes and escape sequences
         ///
         /// In immediate mode, the following additional control codes are
-        /// defined for input.
+        /// recognized.
         ///
         /// ## Control codes
         ///
@@ -170,13 +165,40 @@ interface terminal-input {
 /// Support for terminal output.
 ///
 /// This defines APIs for controlling "termios" attributes affecting output,
-/// as well as control codes and "ANSI"-style escape sequences for terminal
-/// output streams.
+/// as well as control codes and "ANSI"-style escape sequences for controlling
+/// the cursor, changing the appearance of text, and other output controls.
 ///
-/// As with `terminal-input`, implementations are required to parse the
-/// bytestreams, the bytestreams are encoded in UTF-8, control codes other
-/// than U+1B (ESC) are replaced with U+FFFD, and undefined escape sequences
-/// are silently removed.
+/// This specification requires implementations to parse the output bytestreams
+/// and translate escape sequences and control codes to ensure consistent
+/// behavior. Implementations shall not permit arbitrary escape sequences to be
+/// communicated between applications and virtual terminals.
+///
+/// All terminal output streams are encoded in UTF-8. No 8-bit "extended ASCII"
+/// control code encodings are recognized. Any bytes which are not valid UTF-8
+/// evoke a trap, following the [UTF-8 decoder] algorithm in the
+/// [WHATWG Encoding spec], with an [error mode] of "fatal".
+///
+/// Also, any UTF-8 encoding of a Unicode control code other than U+1B (ESC)
+/// that is not recognized shall also evoke a trap.
+///
+/// To reserve space for future escape sequences, any sequence that is not
+/// recognized, and that matches the UTF-8 encoding of any of the following
+/// regular expressions, shall be silently removed from the stream:
+///
+/// * `U+1B U+5B [U+20–U+3F]* U+6D`
+/// * `[U+1B]+ U+5B U+5B [U+–U+7F]?`
+/// * `[U+1B]+ U+5B [U+20–U+3F]* [U+40–U+7E]?`
+/// * `[U+1B]+ U+5D [^U+7,U+18,U+1B]* [U+7,U+18]?`
+/// * `[U+1B]+ [U+40–U+7E]?`
+///
+/// In the tables below, "terminfo" refers to the long form of the equivalent
+/// terminfo capability, "ti" refers to the short form of the equivalent
+/// terminfo capability, and "tc" refers to the equivalent termcap name.
+/// A "\*" indicates that there is no simple equivalent.
+///
+/// [UTF-8 decoder]: https://encoding.spec.whatwg.org/#utf-8-decoder
+/// [WHATWG Encoding algorithm]: https://encoding.spec.whatwg.org/
+/// [error mode]: https://encoding.spec.whatwg.org/#error-mode
 @since(version = 0.3.0)
 interface terminal-output {
     /// The output side of a terminal.
@@ -196,8 +218,8 @@ interface terminal-output {
     ///
     /// # Control codes and escape sequences
     ///
-    /// The following control codes and escape sequences are defined for
-    /// terminal output in all modes.
+    /// The following control codes and escape sequences are recognized in all
+    /// modes.
     ///
     /// ## Control codes
     ///
@@ -233,8 +255,8 @@ interface terminal-output {
     /// An empty list also resets all attributes to default settings. This
     /// includes reseting the colors to defaults, if colors are supported.
     ///
-    /// (Additional attributes for color are defined in the documentation for the `color`
-    /// function.)
+    /// (Additional attributes for color are defined in the documentation for
+    /// the `color` function.)
     ///
     /// By default, terminals are not in full-screen mode or bracketed paste
     /// mode, the cursor is visible, and all attributes are set to defaults.
@@ -266,13 +288,13 @@ interface terminal-output {
 
         /// What kinds of colors are supported, and preferred?
         ///
-        /// This returns a set of flags indicating which families of
-        /// escape sequences for displaying color are supported. The "OSC 4"
-        /// method of detecting color is not supported.
+        /// This returns a set of flags indicating which families of escape
+        /// sequences for displaying color are supported. The "OSC 4" method of
+        /// detecting color is not supported.
         ///
         /// # Control codes and escape sequences
         ///
-        /// The following additional escape sequences are defined in
+        /// The following additional escape sequences are recognized in
         /// implementations which declare `ansi` color support.
         ///
         /// ## Escape sequences
@@ -309,7 +331,7 @@ interface terminal-output {
         ///
         /// # Control codes and escape sequences
         ///
-        /// The following additional escape sequences are defined in
+        /// The following additional escape sequences are recognized in
         /// implementations which declare `truecolor` color support.
         ///
         /// ## Escape sequences
@@ -327,15 +349,13 @@ interface terminal-output {
         /// Does this terminal support line-editing features?
         ///
         /// These include the control codes and escape sequences for moving
-        /// the cursor around the current line, clearing all or part of the
-        /// current line, as well as the "alert" code (U+7) which should
-        /// produce an acoustic or visual notification. This reflects the
-        /// functionality commonly used for command-line prompts.
+        /// the cursor around the current line and clearing all or part of the
+        /// current line.
         ///
         /// # Control codes and escape sequences
         ///
         /// The following additional control codes and escape sequences are
-        /// defined in implementations which declare line-editing support.
+        /// recognized in implementations which declare line-editing support.
         ///
         /// ## Control codes
         ///
@@ -367,7 +387,7 @@ interface terminal-output {
         /// # Control codes and escape sequences
         ///
         /// The following additional control codes and escape sequences are
-        /// defined in implementations which declare full-screen support.
+        /// recognized in implementations which declare full-screen support.
         ///
         /// ## Escape sequences
         ///
@@ -378,7 +398,7 @@ interface terminal-output {
         /// # Control codes and escape sequences
         ///
         /// The following additional control codes and escape sequences are
-        /// defined when full-screen mode has been entered.
+        /// recognized when full-screen mode has been entered.
         ///
         /// ## Escape sequences
         ///
