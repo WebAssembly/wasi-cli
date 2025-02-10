@@ -62,10 +62,12 @@ interface terminal-input {
     /// By default, terminal input is in echo mode (`stty echo -echonl`) and
     /// not in immediate mode (`stty icanon`).
     ///
-    /// The following control codes and escape sequences are defined for
-    /// terminal input:
+    /// # Control codes and escape sequences
     ///
-    /// Control codes:
+    /// The following control codes and escape sequences are defined for
+    /// terminal input in all modes.
+    ///
+    /// ## Control codes
     ///
     /// | Code | Meaning                                                      | terminfo  | ti    | tc |
     /// | -----| ------------------------------------------------------------ | --------- | ----- | -- |
@@ -78,7 +80,7 @@ interface terminal-input {
     /// otherwise defined are defined for terminal input with their ASCII
     /// control-key meaning (eg. Ctrl-A).
     ///
-    /// Escape sequences:
+    /// ## Escape sequences
     ///
     /// | Sequence     | Meaning                                              | terminfo  | ti    | tc |
     /// | ------------ | ---------------------------------------------------- | --------- | ----- | -- |
@@ -107,22 +109,6 @@ interface terminal-input {
     /// | `␛[24~`      | F12                                                  | key_f12   | kf12  | F2 |
     /// | `␛[200~`     | Begin Paste; only emitted when bracketed paste mode is activated | PS | PS | \* |
     /// | `␛[201~`     | End Paste; only emitted when bracketed paste mode is activated | PE | PS | \* |
-    ///
-    /// In immediate mode, the following additional control codes are defined
-    /// for input:
-    ///
-    /// Control codes:
-    ///
-    /// | Code | Meaning                                                      | terminfo  | ti    | tc |
-    /// | ---- | ------------------------------------------------------------ | --------- | ----- | -- |
-    /// | U+C  | Refresh the screen                                           | key_refresh | krfr | &2 |
-    /// | U+1B | Escape                                                       | \*        | \*    | \* |
-    ///
-    /// TODO: Should we say that, in immediate mode, every sequence is followed
-    /// by a stream lull? That would make it possible to distinguish between a
-    /// bare Escape and an escape sequence. However, is it ok to depend on lulls
-    /// for semantic purposes like this? Lulls haven't yet been proposed to the
-    /// component-model spec yet, so there are no answers yet.
     @since(version = 0.3.0)
     resource terminal-input {
         /// Enable or disable *immediate mode*.
@@ -147,6 +133,25 @@ interface terminal-input {
         /// Emacs depend on being able to read Ctrl-C and Ctrl-Z.
         ///
         /// This may fail if the implementation doesn't support immediate mode.
+        ///
+        /// # Control codes and escape sequences
+        ///
+        /// In immediate mode, the following additional control codes are
+        /// defined for input.
+        ///
+        /// ## Control codes
+        ///
+        /// | Code | Meaning                                                      | terminfo  | ti    | tc |
+        /// | ---- | ------------------------------------------------------------ | --------- | ----- | -- |
+        /// | U+C  | Refresh the screen                                           | key_refresh | krfr | &2 |
+        /// | U+1B | Escape                                                       | \*        | \*    | \* |
+        ///
+        /// TODO: Should we say that, in immediate mode, every sequence is
+        /// followed by a stream lull? That would make it possible to
+        /// distinguish between a bare Escape and an escape sequence. However,
+        /// is it ok to depend on lulls for semantic purposes like this? Lulls
+        /// haven't yet been proposed to the component-model spec yet, so there
+        /// are no answers yet.
         set-immediate: func(mode: bool) -> result;
 
         /// Disable or enable *echo mode*.
@@ -189,8 +194,23 @@ interface terminal-output {
     /// apply other output translations; output is recommended to
     /// support lowercase (`stty -olcuc`).
     ///
+    /// # Control codes and escape sequences
+    ///
     /// The following control codes and escape sequences are defined for
-    /// terminal output:
+    /// terminal output in all modes.
+    ///
+    /// ## Control codes
+    ///
+    /// | Code | Meaning                                                  | terminfo  | ti    | tc |
+    /// | -----| -------------------------------------------------------- | --------- | ----- | -- |
+    /// | U+0  | No Effect                                                |           |       |    |
+    /// | U+7  | Alert                                                    | bell      | bel   | bl |
+    /// | U+9  | Tab                                                      | tab       | ht    | ta |
+    /// | U+C  | Line feed; despite U+C being called "form feed" in ASCII, this does a line feed | \* | \* | \* |
+    /// | U+A  | Newline; despite U+A being called "line feed" in ASCII, this does a line feed and carriage return | newline | nel | nw |
+    /// | U+7F | No Effect                                                |           |       |    |
+    ///
+    /// ## Escape sequences
     ///
     /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
     /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
@@ -249,10 +269,12 @@ interface terminal-output {
         /// escape sequences for displaying color are supported. The "OSC 4"
         /// method of detecting color is not supported.
         ///
-        /// The following additional escape sequences are defined in
-        /// implementations which declare `ansi` color support:
+        /// # Control codes and escape sequences
         ///
-        /// Escape sequences:
+        /// The following additional escape sequences are defined in
+        /// implementations which declare `ansi` color support.
+        ///
+        /// ## Escape sequences
         ///
         /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
         /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
@@ -284,10 +306,12 @@ interface terminal-output {
         ///
         /// As always, an empty list resets all attributes to default settings.
         ///
-        /// The following additional escape sequences are defined in
-        /// implementations which declare `truecolor` color support:
+        /// # Control codes and escape sequences
         ///
-        /// Escape sequences:
+        /// The following additional escape sequences are defined in
+        /// implementations which declare `truecolor` color support.
+        ///
+        /// ## Escape sequences
         ///
         /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
         /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
@@ -307,22 +331,19 @@ interface terminal-output {
         /// produce an acoustic or visual notification. This reflects the
         /// functionality commonly used for command-line prompts.
         ///
-        /// The following additional control codes and escape sequences are
-        /// defined in implementations which declare line-editing support:
+        /// # Control codes and escape sequences
         ///
-        /// Control codes:
+        /// The following additional control codes and escape sequences are
+        /// defined in implementations which declare line-editing support.
+        ///
+        /// ## Control codes
         ///
         /// | Code | Meaning                                                  | terminfo  | ti    | tc |
         /// | ---- | -------------------------------------------------------- | --------- | ----- | -- |
-        /// | U+7  | Alert                                                    | bell      | bel   | bl |
         /// | U+8  | Move cursor back one column                              | cursor_left | cub1 | le |
-        /// | U+9  | Tab                                                      | tab       | ht    | ta |
-        /// | U+A  | Newline; despite U+A being called "line feed" in ASCII, this does a line feed and carriage return | newline | nel | nw |
-        /// | U+C  | Line feed despite U+C being called "form feed" in ASCII, this does a line feed | \* | \* | \* |
         /// | U+D  | Carriage Return                                          | carriage_return | cr | cr |
-        /// | U+7F | No Effect                                                |           |       |    |
         ///
-        /// Escape sequences:
+        /// ## Escape sequences
         ///
         /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
         /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
@@ -342,17 +363,23 @@ interface terminal-output {
         /// saved and the screen is cleared. When exiting full-screen mode,
         /// the saved contents are restored.
         ///
-        /// The following additional control codes and escape sequences are
-        /// defined in implementations which declare full-screen support:
+        /// # Control codes and escape sequences
         ///
-        /// Escape sequences:
+        /// The following additional control codes and escape sequences are
+        /// defined in implementations which declare full-screen support.
+        ///
+        /// ## Escape sequences
         ///
         /// | Sequence    | Meaning                                           | terminfo  | ti    | tc |
         /// | ----------- | ------------------------------------------------- | --------- | ----- | -- |
-        /// | `␛[?1049h`  | Enter *full-screen mode*                          | enter_ca_mode | smcup | ti |
+        /// | `␛[?1049h`  | Begin *full-screen mode*                          | enter_ca_mode | smcup | ti |
+        ///
+        /// # Control codes and escape sequences
         ///
         /// The following additional control codes and escape sequences are
-        /// defined when full-screen mode has been entered:
+        /// defined when full-screen mode has been entered.
+        ///
+        /// ## Escape sequences
         ///
         /// | Sequence    | Meaning                                           | terminfo  | ti    | tc |
         /// | ----------- | ------------------------------------------------- | --------- | ----- | -- |
@@ -368,7 +395,7 @@ interface terminal-output {
         /// | `␛[«n»d`    | Move the cursor to row `«n»`                      | row_address | vpa | cv |
         /// | `␛[«row»;«column»f` | Move the cursor to row `«row»` and column `«column»` | cursor_address | cup | cm |
         /// | `␛[?1049h`  | Clear the screen and reset full-screen settings to defaults | enter_ca_mode | smcup | ti |
-        /// | `␛[?1049l`  | Exit full-screen mode and restore the terminal to its prior state | exit_ca_mode | rmcup | te |
+        /// | `␛[?1049l`  | End full-screen mode and restore the terminal to its prior state | exit_ca_mode | rmcup | te |
         /// | `␛[!p`      | Reset the terminal to default settings, without clearing the screen | \* | \* | \* |
         full-screen-supported: func() -> bool;
     }
