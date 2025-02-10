@@ -206,7 +206,7 @@ interface terminal-output {
     /// | Attribute | Meaning |
     /// | --------  | ------- |
     /// | `0`       | Reset all attributes to default settings |
-    /// | `1`       | Bold    |
+    /// | `1`       | Bold (or Bright on some terminals)   |
     /// | `2`       | Faint   |
     ///
     /// An empty list also resets all attributes to default settings. This
