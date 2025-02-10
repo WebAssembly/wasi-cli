@@ -228,6 +228,7 @@ interface terminal-output {
     /// | `0`       | Reset all attributes to default settings |
     /// | `1`       | Bold (or Bright on some terminals)   |
     /// | `2`       | Faint   |
+    /// | `7`       | Reverse video |
     ///
     /// An empty list also resets all attributes to default settings. This
     /// includes reseting the colors to defaults, if colors are supported.
