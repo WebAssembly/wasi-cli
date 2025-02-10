@@ -45,12 +45,11 @@ interface terminal-input {
     /// Except when in immediate mode, a user Ctrl-M keypress is sent to the
     /// application as U+A instead of U+D (`stty icrnl -inlcr`).
     ///
-    /// Terminals may also assign other meanings to other control codes and
-    /// apply other input translations; when not in immediate mode,
-    /// implementations are recommended to use line buffering (`stty icanon`),
-    /// support UTF-8 input (`stty iutf8 -istrip cs8`), support uppercase
-    /// (`stty -iuclc` if applicable), and support common signal behavior
-    /// (`stty isig`).
+    /// Terminals may also apply other input translations. When not in
+    /// immediate mode, implementations are recommended to use line buffering
+    /// (`stty icanon`), support UTF-8 input (`stty iutf8 -istrip cs8`),
+    /// support uppercase (`stty -iuclc` if applicable), and support common
+    /// signal behavior (`stty isig`).
     ///
     /// By default, terminal input is in echo mode (`stty echo -echonl`) and
     /// not in immediate mode (`stty icanon`).
@@ -111,11 +110,11 @@ interface terminal-input {
         /// until the end of the line is seen (`stty -icanon`), and Ctrl-M is
         /// not translated to U+A (`stty -icrnl -inlcr`).
         ///
-        /// Terminals may also assign other meanings to other control codes and
-        /// apply other input translations; immediate mode is recommended to
-        /// support UTF-8 input (`stty iutf8 -istrip cs8`), support uppercase
-        /// (`stty -iuclc` if applicable), disable common signal behavior
-        /// (`stty -isig`), and disable XON/XOFF control flow (`stty -ixon`).
+        /// Terminals may also apply other input translations; immediate mode
+        /// is recommended to support UTF-8 input (`stty iutf8 -istrip cs8`),
+        /// support uppercase (`stty -iuclc` if applicable), disable common
+        /// signal behavior (`stty -isig`), and disable XON/XOFF control flow
+        /// (`stty -ixon`).
         ///
         /// Immediate mode does not imply disabling echoing of input; see
         /// `set-echo` to control echoing.
@@ -210,9 +209,8 @@ interface terminal-output {
     /// U+9 does the horizontal-tab thing, and U+A performs a line feed and a
     /// carriage return (`stty opost onlcr -onlret -ocrnl -onocr`).
     ///
-    /// Terminals may also assign other meanings to other control codes and
-    /// apply other output translations; output is recommended to
-    /// support lowercase (`stty -olcuc`).
+    /// Terminals may also apply other output translations. Output is
+    /// recommended to support lowercase (`stty -olcuc`).
     ///
     /// # Control codes and escape sequences
     ///
