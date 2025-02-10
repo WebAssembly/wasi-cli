@@ -207,9 +207,10 @@ interface terminal-output {
     /// ensure that if log messages are also being written to the terminal,
     /// that they not be permitted to be obscured by terminal manipulation.
     ///
-    /// Output is always postprocessed: U+8 moves the cursor back one column,
-    /// U+9 does the horizontal-tab thing, and U+A performs a line feed and a
-    /// carriage return (`stty opost onlcr -onlret -ocrnl -onocr`).
+    /// Output is always postprocessed: U+8 moves the cursor back one column
+    /// unless it's already in the first column, U+9 moves the cursor forward
+    /// to the next tab stop, and U+A performs a line feed and a carriage
+    /// return (`stty opost onlcr -onlret -ocrnl -onocr`).
     ///
     /// Terminals may also apply other output translations. Output is
     /// recommended to support lowercase (`stty -olcuc`).
