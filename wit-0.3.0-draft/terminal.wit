@@ -275,6 +275,12 @@ interface terminal-output {
         /// width may sometimes be known even when the height is not.
         window-columns: func() -> result<u16>;
 
+        /// Return the current color theme in the terminal.
+        ///
+        /// Not all terminals have themes, and not all that do know their
+        /// size, so this function may fail if the theme cannot be determined.
+        window-color-theme: func() -> result<color-theme>;
+
         /// Return a `stream` listening for window size changes.
         ///
         /// This `stream` produces empty values when the window size changes,
@@ -284,6 +290,17 @@ interface terminal-output {
         /// On implementations which don't support size changes or suspending,
         /// it never produces any values.
         size-changes: func() -> stream;
+
+        /// Return a `stream` listening for window color theme changes.
+        ///
+        /// This `stream` produces empty values when the window color theme
+        /// changes, or when the application is resumed from having been
+        /// suspended. (These correspond to the functionality of
+        /// Private DEC mode 2031 in some terminals.)
+        ///
+        /// On implementations which don't support color theme changes or
+        /// suspending, it never produces any values.
+        color-theme-changes: func() -> stream;
 
         /// What kinds of colors are supported, and preferred?
         ///
@@ -472,6 +489,14 @@ interface terminal-output {
     record rows-and-columns {
         rows: u16,
         columns: u16,
+    }
+
+    /// A color theme.
+    enum color-theme {
+        /// Light mode!
+        light-mode,
+        /// Dark mode!
+        dark-mode,
     }
 }
 
