@@ -1,25 +1,503 @@
-/// Terminal input.
+/// Support for terminal input.
 ///
-/// In the future, this may include functions for disabling echoing,
-/// disabling input buffering so that keyboard events are sent through
-/// immediately, querying supported features, and so on.
+/// This defines APIs for controlling "termios" attributes affecting input,
+/// as well as control codes and "ANSI"-style escape sequences identifying
+/// key-presses and other input events.
+///
+/// This specification requires implementations to parse the input bytestreams
+/// and translate escape sequences and control codes to ensure consistent
+/// behavior. Implementations shall not permit arbitrary escape sequences to be
+/// communicated between applications and virtual terminals.
+///
+/// All terminal input streams are encoded in UTF-8. No 8-bit "extended ASCII"
+/// control code encodings are recognized. Any bytes which are not valid UTF-8
+/// are replaced with the UTF-8 encoding of U+FFFD (REPLACEMENT CHARACTER),
+/// following the [U+FFFD Substitution of Maximal Subparts] algorithm.
+///
+/// Also, any UTF-8 encoding of a [Unicode control code] that is not recognized
+/// shall also be replaced by the UTF-8 encoding of
+/// U+FFFD (REPLACEMENT CHARACTER).
+///
+/// To reserve space for future escape sequences, any sequence that is not
+/// recognized, and that matches the UTF-8 encoding of any of the following
+/// regular expressions, shall be silently removed from the stream:
+///
+/// * `U+1B U+5B [U+20–U+3F]* U+6D`
+/// * `[U+1B]+ U+5B U+5B [U+–U+7F]?`
+/// * `[U+1B]+ U+5B [U+20–U+3F]* [U+40–U+7E]?`
+/// * `[U+1B]+ U+5D [^U+7,U+18,U+1B]* [U+7,U+18]?`
+/// * `[U+1B]+ [U+40–U+7E]?`
+///
+/// In the tables below, "terminfo" refers to the long form of the equivalent
+/// terminfo capability, "ti" refers to the short form of the equivalent
+/// terminfo capability, and "tc" refers to the equivalent termcap name.
+/// A "\*" indicates that there is no simple equivalent.
+///
+/// [U+FFFD Substitution of Maximal Subparts]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-3/#G66453
+/// [Unicode control code]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-23/#G20365
 @since(version = 0.3.0)
 interface terminal-input {
     /// The input side of a terminal.
+    ///
+    /// Implementations must reset terminals to default settings when terminal
+    /// resources are created and dropped.
+    ///
+    /// Except when in immediate mode, a user Ctrl-M keypress is sent to the
+    /// application as U+A instead of U+D (`stty icrnl -inlcr`).
+    ///
+    /// Terminals may also apply other input translations. When not in
+    /// immediate mode, implementations are recommended to use line buffering
+    /// (`stty icanon`), support UTF-8 input (`stty iutf8 -istrip cs8`),
+    /// support uppercase (`stty -iuclc` if applicable), and support common
+    /// signal behavior (`stty isig`).
+    ///
+    /// By default, terminal input is in echo mode (`stty echo -echonl`) and
+    /// not in immediate mode (`stty icanon`).
+    ///
+    /// # Control codes and escape sequences
+    ///
+    /// The following control codes and escape sequences are recognized in all
+    /// modes.
+    ///
+    /// ## Control codes
+    ///
+    /// | Code | Meaning                                                      | terminfo  | ti    | tc |
+    /// | -----| ------------------------------------------------------------ | --------- | ----- | -- |
+    /// | U+8  | Ctrl-H; despite U+8 being called "backspace" in ASCII, this isn't the backspace key | key_left | kcub1 | kl |
+    /// | U+9  | Tab                                                          | \*        | \*    | \* |
+    /// | U+A  | Enter                                                        | key_enter | kent  | @8 |
+    /// | U+7F | Backspace; this is the backspace key                         | key_backspace | kbs | kb |
+    ///
+    /// Additionally, all other C0 control codes except U+D that are not
+    /// otherwise recognized are recognized with their ASCII control-key
+    /// meaning (eg. Ctrl-A).
+    ///
+    /// ## Escape sequences
+    ///
+    /// | Sequence     | Meaning                                              | terminfo  | ti    | tc |
+    /// | ------------ | ---------------------------------------------------- | --------- | ----- | -- |
+    /// | `␛[A`        | Up                                                   | key_up    | kcuu1 | ku |
+    /// | `␛[B`        | Down                                                 | key_down  | kcud1 | kd |
+    /// | `␛[C`        | Right                                                | key_right | kcuf1 | kr |
+    /// | `␛[D`        | Left                                                 | key_left  | kcub1 | kl |
+    /// | `␛[F`        | End                                                  | key_end   | kend  | @7 |
+    /// | `␛[H`        | Home                                                 | key_home  | khome | kh |
+    /// | `␛[Z`        | Shift-Tab                                            | key_btab  | kcbt  | kB |
+    /// | `␛[2~`       | Insert                                               | key_ic    | kich1 | kI |
+    /// | `␛[3~`       | Delete                                               | key_dc    | kdch1 | kD |
+    /// | `␛[5~`       | Page Up                                              | key_ppage | kpp   | kP |
+    /// | `␛[6~`       | Page Down                                            | key_npage | knp   | kN |
+    /// | `␛OP`        | F1                                                   | key_f1    | kf1   | k1 |
+    /// | `␛OQ`        | F2                                                   | key_f2    | kf2   | k2 |
+    /// | `␛OR`        | F3                                                   | key_f3    | kf3   | k3 |
+    /// | `␛OS`        | F4                                                   | key_f4    | kf4   | k4 |
+    /// | `␛[15~`      | F5                                                   | key_f5    | kf5   | k5 |
+    /// | `␛[17~`      | F6                                                   | key_f6    | kf6   | k6 |
+    /// | `␛[18~`      | F7                                                   | key_f7    | kf7   | k7 |
+    /// | `␛[19~`      | F8                                                   | key_f8    | kf8   | k8 |
+    /// | `␛[20~`      | F9                                                   | key_f9    | kf9   | k9 |
+    /// | `␛[21~`      | F10                                                  | key_f10   | kf10  | k; |
+    /// | `␛[23~`      | F11                                                  | key_f11   | kf11  | F1 |
+    /// | `␛[24~`      | F12                                                  | key_f12   | kf12  | F2 |
+    /// | `␛[200~`     | Begin Paste; only emitted when bracketed paste mode is activated | PS | PS | \* |
+    /// | `␛[201~`     | End Paste; only emitted when bracketed paste mode is activated | PE | PE | \* |
     @since(version = 0.3.0)
-    resource terminal-input;
+    resource terminal-input {
+        /// Enable or disable *immediate mode*.
+        ///
+        /// Immediate mode makes input key sequences available to be read on
+        /// the input stream immediately, rather than buffering them up
+        /// until the end of the line is seen (`stty -icanon`), and Ctrl-M is
+        /// not translated to U+A (`stty -icrnl -inlcr`).
+        ///
+        /// Terminals may also apply other input translations; immediate mode
+        /// is recommended to support UTF-8 input (`stty iutf8 -istrip cs8`),
+        /// support uppercase (`stty -iuclc` if applicable), disable common
+        /// signal behavior (`stty -isig`), and disable XON/XOFF control flow
+        /// (`stty -ixon`).
+        ///
+        /// Immediate mode does not imply disabling echoing of input; see
+        /// `set-echo` to control echoing.
+        ///
+        /// TODO: Disabling common signal behavior (`stty -isig`) is an
+        /// interesting question; do we really want untrusted code to be able
+        /// to disable Ctrl-C and Ctrl-Z? On the other hand, applications like
+        /// Emacs depend on being able to read Ctrl-C and Ctrl-Z.
+        ///
+        /// This may fail if the implementation doesn't support immediate mode.
+        ///
+        /// # Control codes and escape sequences
+        ///
+        /// In immediate mode, the following additional control codes are
+        /// recognized.
+        ///
+        /// ## Control codes
+        ///
+        /// | Code | Meaning                                                      | terminfo  | ti    | tc |
+        /// | ---- | ------------------------------------------------------------ | --------- | ----- | -- |
+        /// | U+C  | Refresh the screen                                           | key_refresh | krfr | &2 |
+        /// | U+1B | Escape                                                       | \*        | \*    | \* |
+        ///
+        /// TODO: Should we say that, in immediate mode, every sequence is
+        /// followed by a stream lull? That would make it possible to
+        /// distinguish between a bare Escape and an escape sequence. However,
+        /// is it ok to depend on lulls for semantic purposes like this? Lulls
+        /// haven't yet been proposed to the component-model spec yet, so there
+        /// are no answers yet.
+        set-immediate: func(mode: bool) -> result;
+
+        /// Disable or enable *echo mode*.
+        ///
+        /// Echo mode retransmits input key sequences back to the output of the
+        /// terminal, so that users can see what they're typing. Echoing is the
+        /// default behavior in terminals, but disabling can be useful for
+        /// entering passwords or for combining with immediate mode to make
+        /// interactive terminal interfaces.
+        ///
+        /// This may fail if the implementation doesn't support echo mode.
+        set-echo: func(mode: bool) -> result;
+    }
 }
 
-/// Terminal output.
+/// Support for terminal output.
 ///
-/// In the future, this may include functions for querying the terminal
-/// size, being notified of terminal size changes, querying supported
-/// features, and so on.
+/// This defines APIs for controlling "termios" attributes affecting output,
+/// as well as control codes and "ANSI"-style escape sequences for controlling
+/// the cursor, changing the appearance of text, and other output controls.
+///
+/// This specification requires implementations to parse the output bytestreams
+/// and translate escape sequences and control codes to ensure consistent
+/// behavior. Implementations shall not permit arbitrary escape sequences to be
+/// communicated between applications and virtual terminals.
+///
+/// All terminal output streams are encoded in UTF-8. No 8-bit "extended ASCII"
+/// control code encodings are recognized. Any bytes which are not valid UTF-8
+/// are replaced with the UTF-8 encoding of U+FFFD (REPLACEMENT CHARACTER),
+/// following the [U+FFFD Substitution of Maximal Subparts] algorithm.
+///
+/// Also, any UTF-8 encoding of a [Unicode control code] that is not recognized
+/// shall also be replaced by the UTF-8 encoding of
+/// U+FFFD (REPLACEMENT CHARACTER).
+///
+/// To reserve space for future escape sequences, any sequence that is not
+/// recognized, and that matches the UTF-8 encoding of any of the following
+/// regular expressions, shall be silently removed from the stream:
+///
+/// * `U+1B U+5B [U+20–U+3F]* U+6D`
+/// * `[U+1B]+ U+5B U+5B [U+–U+7F]?`
+/// * `[U+1B]+ U+5B [U+20–U+3F]* [U+40–U+7E]?`
+/// * `[U+1B]+ U+5D [^U+7,U+18,U+1B]* [U+7,U+18]?`
+/// * `[U+1B]+ [U+40–U+7E]?`
+///
+/// In the tables below, "terminfo" refers to the long form of the equivalent
+/// terminfo capability, "ti" refers to the short form of the equivalent
+/// terminfo capability, and "tc" refers to the equivalent termcap name.
+/// A "\*" indicates that there is no simple equivalent.
+///
+/// TODO: Describe wrapping, scrolling, and multi-column glyphs.
+///
+/// [U+FFFD Substitution of Maximal Subparts]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-3/#G66453
+/// [Unicode control code]: https://www.unicode.org/versions/Unicode16.0.0/core-spec/chapter-23/#G20365
 @since(version = 0.3.0)
 interface terminal-output {
     /// The output side of a terminal.
+    ///
+    /// Implementations must reset terminals to default settings when terminal
+    /// resources are created and dropped. Implementations are encouraged to
+    /// ensure that if log messages are also being written to the terminal,
+    /// that they not be permitted to be obscured by terminal manipulation.
+    ///
+    /// Output is always postprocessed: U+8 moves the cursor back one column
+    /// unless it's already in the first column, U+9 moves the cursor forward
+    /// to the next tab stop, and U+A performs a line feed and a carriage
+    /// return (`stty opost onlcr -onlret -ocrnl -onocr`).
+    ///
+    /// Terminals may also apply other output translations. Output is
+    /// recommended to support lowercase (`stty -olcuc`).
+    ///
+    /// # Control codes and escape sequences
+    ///
+    /// The following control codes and escape sequences are recognized in all
+    /// modes.
+    ///
+    /// ## Control codes
+    ///
+    /// | Code | Meaning                                                  | terminfo  | ti    | tc |
+    /// | -----| -------------------------------------------------------- | --------- | ----- | -- |
+    /// | U+0  | No Effect                                                |           |       |    |
+    /// | U+7  | Alert                                                    | bell      | bel   | bl |
+    /// | U+9  | Tab                                                      | tab       | ht    | ta |
+    /// | U+C  | Line feed; despite U+C being called "form feed" in ASCII, this does a line feed | \* | \* | \* |
+    /// | U+A  | Newline; despite U+A being called "line feed" in ASCII, this does a line feed and carriage return | newline | nel | nw |
+    /// | U+7F | No Effect                                                |           |       |    |
+    ///
+    /// ## Escape sequences
+    ///
+    /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
+    /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
+    /// | `␛[?25l` | Set the cursor as invisible                          | cursor_invisible | civis | vi |
+    /// | `␛[?25h` | Set the cursor as visible                            | cursor_visible | cvvis | vs |
+    /// | `␛[?2004h` | Begin *bracketed paste mode*                       | BE        | BE | \* |
+    /// | `␛[?2004l` | End bracketed paste mode                           | BD        | BD | \* |
+    /// | `␛[«attrs»m` | Set terminal attributes                          | set_attributes | sgr | sa |
+    ///
+    /// `«attrs»` is a semicolon-separated list of decimal-formatted integer
+    /// values from the following list, identifying attributes:
+    ///
+    /// | Attribute | Meaning |
+    /// | --------  | ------- |
+    /// | `0`       | Reset all attributes to default settings |
+    /// | `1`       | Bold (or Bright on some terminals)   |
+    /// | `2`       | Faint   |
+    /// | `7`       | Reverse video |
+    ///
+    /// An empty list also resets all attributes to default settings. This
+    /// includes reseting the colors to defaults, if colors are supported.
+    ///
+    /// (Additional attributes for color are defined in the documentation for
+    /// the `color` function.)
+    ///
+    /// By default, terminals are not in full-screen mode or bracketed paste
+    /// mode, the cursor is visible, and all attributes are set to defaults.
     @since(version = 0.3.0)
-    resource terminal-output;
+    resource terminal-output {
+        /// Return the current number of rows and columns in the terminal.
+        ///
+        /// Not all terminals have a set size, and not all that do know their
+        /// size, so this function may fail if the size cannot be determined.
+        window-size: func() -> result<rows-and-columns>;
+
+        /// Return the current number of columns in the terminal.
+        ///
+        /// Not all terminals have a set size, and not all that do know their
+        /// size, so this function may fail if the size cannot be determined.
+        /// This function may succeed when `window-size` fails, as the terminal
+        /// width may sometimes be known even when the height is not.
+        window-columns: func() -> result<u16>;
+
+        /// Return the current color theme in the terminal.
+        ///
+        /// Not all terminals have themes, and not all that do know their
+        /// size, so this function may fail if the theme cannot be determined.
+        window-color-theme: func() -> result<color-theme>;
+
+        /// Return a `stream` listening for window size changes.
+        ///
+        /// This `stream` produces empty values when the window size changes,
+        /// or when the application is resumed from having been suspended.
+        /// (These correspond to `SIGWINCH` and `SIGCONT` in Unix.)
+        ///
+        /// On implementations which don't support size changes or suspending,
+        /// it never produces any values.
+        size-changes: func() -> stream;
+
+        /// Return a `stream` listening for window color theme changes.
+        ///
+        /// This `stream` produces empty values when the window color theme
+        /// changes, or when the application is resumed from having been
+        /// suspended. (These correspond to the functionality of
+        /// Private DEC mode 2031 in some terminals.)
+        ///
+        /// On implementations which don't support color theme changes or
+        /// suspending, it never produces any values.
+        color-theme-changes: func() -> stream;
+
+        /// What kinds of colors are supported, and preferred?
+        ///
+        /// This returns a set of flags indicating which families of escape
+        /// sequences for displaying color are supported. The "OSC 4" method of
+        /// detecting color is not supported.
+        ///
+        /// # Control codes and escape sequences
+        ///
+        /// The following additional escape sequences are recognized in
+        /// implementations which declare `ansi` color support.
+        ///
+        /// ## Escape sequences
+        ///
+        /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
+        /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
+        /// | `␛[«attrs»m` | Set the foreground and/or background color       | set_attributes | sgr | sa |
+        ///
+        /// `«attrs»` is a semicolon-separated list of decimal-formatted
+        /// integer values from the following list, identifying color
+        /// attributes:
+        ///
+        /// | Foreground | Background | Color |
+        /// | ---- | ---- | ---- |
+        /// | `30` | `40` | Black |
+        /// | `31` | `41` | Red |  |
+        /// | `32` | `42` | Green |
+        /// | `33` | `43` | Yellow |
+        /// | `34` | `44` | Blue |
+        /// | `35` | `45` | Magenta  |
+        /// | `36` | `46` | Cyan  |
+        /// | `37` | `47` | White |
+        /// | `39` | `49` | Default (terminal's choice) |
+        /// | `90` | `100` | Bright Black (Gray) |
+        /// | `91` | `101` | Bright Red |
+        /// | `92` | `102` | Bright Green  |
+        /// | `93` | `103` | Bright Yellow |
+        /// | `94` | `104` | Bright Blue  |
+        /// | `95` | `105` | Bright Magenta |
+        /// | `96` | `106` | Bright Cyan  |
+        /// | `97` | `107` | Bright White |
+        ///
+        /// As always, an empty list resets all attributes to default settings.
+        ///
+        /// # Control codes and escape sequences
+        ///
+        /// The following additional escape sequences are recognized in
+        /// implementations which declare `truecolor` color support.
+        ///
+        /// ## Escape sequences
+        ///
+        /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
+        /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
+        /// | `␛[38;2;«r»;«g»;«b»m` | Set the foreground color to rgb(«r»,«g»,«b») | set_attributes | sgr | sa |
+        /// | `␛[48;2;«r»;«g»;«b»m` | Set the background color to rgb(«r»,«g»,«b») | set_attributes | sgr | sa |
+        ///
+        /// `«r»`, `«g»`, and `«b»` are decimal-formatted integer values
+        /// in the range [0,256) and represent the red, green, and blue
+        /// components of an rgb color.
+        color: func() -> color-flags;
+
+        /// Does this terminal support line-editing features?
+        ///
+        /// These include the control codes and escape sequences for moving
+        /// the cursor around the current line and clearing all or part of the
+        /// current line.
+        ///
+        /// # Control codes and escape sequences
+        ///
+        /// The following additional control codes and escape sequences are
+        /// recognized in implementations which declare line-editing support.
+        ///
+        /// ## Control codes
+        ///
+        /// | Code | Meaning                                                  | terminfo  | ti    | tc |
+        /// | ---- | -------------------------------------------------------- | --------- | ----- | -- |
+        /// | U+8  | Move cursor back one column                              | cursor_left | cub1 | le |
+        /// | U+D  | Carriage Return                                          | carriage_return | cr | cr |
+        ///
+        /// ## Escape sequences
+        ///
+        /// | Sequence | Meaning                                              | terminfo  | ti    | tc |
+        /// | -------- | ---------------------------------------------------- | --------- | ----- | -- |
+        /// | `␛[K`    | Clear to end of line                                 | clr_eol   | el    | ce |
+        /// | `␛[0K`   | Clear to end of line                                 | clr_eol   | el    | ce |
+        /// | `␛[2K`   | Clear entire line                                    | \*        | \*    | \* |
+        line-editing-supported: func() -> bool;
+
+        /// Does this terminal support full-screen features?
+        ///
+        /// These include moving the cursor to arbitrary positions on the
+        /// full screen, and clearing all or part of the full screen. This
+        /// reflects the functionality commonly used for interactive terminal
+        /// user interfaces.
+        ///
+        /// When full-screen mode is entered, the contents of the screen are
+        /// saved and the screen is cleared. When exiting full-screen mode,
+        /// the saved contents are restored.
+        ///
+        /// # Control codes and escape sequences
+        ///
+        /// The following additional control codes and escape sequences are
+        /// recognized in implementations which declare full-screen support.
+        ///
+        /// ## Escape sequences
+        ///
+        /// | Sequence    | Meaning                                           | terminfo  | ti    | tc |
+        /// | ----------- | ------------------------------------------------- | --------- | ----- | -- |
+        /// | `␛[?1049h`  | Enter *full-screen mode*                          | enter_ca_mode | smcup | ti |
+        ///
+        /// # Control codes and escape sequences
+        ///
+        /// The following additional control codes and escape sequences are
+        /// recognized when full-screen mode has been entered.
+        ///
+        /// ## Escape sequences
+        ///
+        /// | Sequence    | Meaning                                           | terminfo  | ti    | tc |
+        /// | ----------- | ------------------------------------------------- | --------- | ----- | -- |
+        /// | `␛[«n»A`    | Move the cursor up `«n»` rows                     | parm_up_cursor | cuu  | UP |
+        /// | `␛[«n»B`    | Move the cursor down `«n»` rows                   | parm_down_cursor | cud | DO |
+        /// | `␛[«n»C`    | Move the cursor right `«n»` column                | parm_right_cursor | cuf | RI |
+        /// | `␛[«n»D`    | Move the cursor left `«n»` columns                | parm_left_cursor | cub | LE |
+        /// | `␛[«n»G`    | Move the cursor to column `«n»`                   | column_address | hpa | ch |
+        /// | `␛[«row»;«column»H` | Move the cursor to row `«row»` and column `«column»` | cursor_address | cup | cm |
+        /// | `␛[0J`      | Clear from the cursor to the end of the screen    | clr_eos   | ed    | cd |
+        /// | `␛[1J`      | Clear the screen from the beginning to the current cursor position | \* | \* | \* |
+        /// | `␛[2J`      | Clear the whole screen                            | clear_screen | clear | cl |
+        /// | `␛[«n»d`    | Move the cursor to row `«n»`                      | row_address | vpa | cv |
+        /// | `␛[«row»;«column»f` | Move the cursor to row `«row»` and column `«column»` | cursor_address | cup | cm |
+        /// | `␛[?1049h`  | Clear the screen and reset full-screen settings to defaults | enter_ca_mode | smcup | ti |
+        /// | `␛[?1049l`  | Exit full-screen mode and restore the terminal to its prior state | exit_ca_mode | rmcup | te |
+        /// | `␛[!p`      | Reset the terminal to default settings, without clearing the screen | \* | \* | \* |
+        full-screen-supported: func() -> bool;
+    }
+
+    /// Flags indicating support for different sets of color escape
+    /// sequences, and the user's preference for whether they should
+    /// be used by default.
+    ///
+    /// Other color features, including 88-color and 256-color are not
+    /// included here, as the associated escape sequences are not as
+    /// portable, and they're effectively obviated by truecolor support.
+    flags color-flags {
+        /// Are the classic "4-bit color" escape sequences supported?
+        ///
+        /// This indicates support for 16 colors, on foreground and background,
+        /// using the widely-supported (and ECMA-48) "SGR" color escape
+        /// sequences of the form `␛[…m`. See [here] for more information.
+        ///
+        /// Before using color in your user interface, also consider
+        /// checking `color-desired-by-default` to obtain the user's preference
+        /// for enabling color by default.
+        ///
+        /// [here]: https://en.wikipedia.org/wiki/ANSI_escape_code#3-bit_and_4-bit
+        ansi,
+
+        /// Are the 24-bit "true color" escape sequences supported?
+        ///
+        /// This indicates support over 16 million colors, on foreground and
+        /// background, using "true color" escape sequences of the form
+        /// `␛[38;2;«r»;«g»;«b»m` (foreground) and `␛[48;2;«r»;«g»;«b»m`
+        /// (background). The `«r»`, `«g»`, and `«b»` fields are integers
+        /// in the range [0,256) indicating red, green, and blue values
+        /// respectively. See [here] for more information.
+        ///
+        /// Before using color in your user interface, also consider
+        /// checking `color-desired-by-default` to obtain the user's preference
+        /// for enabling color by default.
+        ///
+        /// [here]: https://en.wikipedia.org/wiki/ANSI_escape_code#24-bit
+        truecolor,
+
+        /// Does the user want color to be used by default?
+        ///
+        /// Some users have a terminal which supports color, but prefer
+        /// applications not use it by default; this flag indicates
+        /// this preference.
+        ///
+        /// See the [`NO_COLOR` website](http://no-color.org/) for more
+        /// information.
+        color-desired-by-default,
+    }
+
+    /// A pair of rows and columns.
+    record rows-and-columns {
+        rows: u16,
+        columns: u16,
+    }
+
+    /// A color theme.
+    enum color-theme {
+        /// Light mode!
+        light-mode,
+        /// Dark mode!
+        dark-mode,
+    }
 }
 
 /// An interface providing an optional `terminal-input` for stdin as a
