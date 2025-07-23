@@ -1,6 +1,23 @@
 @since(version = 0.3.0)
 interface run {
-  /// Run the program.
-  @since(version = 0.3.0)
-  run: func() -> result;
+    /// Run the program.
+    ///
+    /// This function is only meant to be called once per Wasm instance. If it
+    /// is called more, it will immediately fail with `error.already-called`.
+    ///
+    /// If a program wishes to exit with a specific exit status value, it should
+    /// use the `exit.exit-with-code` function to exit rather than returning
+    /// from `run`.
+    @since(version = 0.3.0)
+    run: func() -> result<_, error>;
+
+    /// An error code returned by `run`.
+    @since(version = 0.3.0)
+    enum error {
+        /// The program did not complete successfully.
+        error,
+
+        /// The `run` function has already been called in the callee's instance.
+        already-called
+    }
 }
