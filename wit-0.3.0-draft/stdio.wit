@@ -7,11 +7,11 @@ interface stdin {
 @since(version = 0.3.0-rc-2025-08-15)
 interface stdout {
   @since(version = 0.3.0-rc-2025-08-15)
-  set-stdout: func(data: stream<u8>);
+  append-stdout: func(data: stream<u8>);
 }
 
 @since(version = 0.3.0-rc-2025-08-15)
 interface stderr {
   @since(version = 0.3.0-rc-2025-08-15)
-  set-stderr: func(data: stream<u8>);
+  append-stderr: func(data: stream<u8>);
 }
