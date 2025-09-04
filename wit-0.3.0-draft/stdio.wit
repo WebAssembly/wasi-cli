@@ -1,17 +1,69 @@
 @since(version = 0.3.0-rc-2025-08-15)
 interface stdin {
+  /// Gets the "stdin" of this component as a stream.
+  ///
+  /// This function returns a `stream<u8>` which is a byte-based async view
+  /// of the stdin to this component. What exactly stdin is depends on the
+  /// implementor but it could possibly be backed by any of the following:
+  ///
+  /// * A console terminal input
+  /// * A file via shell redirection
+  /// * Another stream from another component in virtualization scenarios
+  ///
+  /// This function can be called any number of times and all returned streams
+  /// will refer to the same I/O object that represents the stdin of this
+  /// component itself. Concurrent reads from separate streams are allowed
+  /// but it's unspecified which resolves first.
+  ///
+  /// If a read is started and then cancelled implementors need to guarantee
+  /// that no bytes are consumed from stdin. In other words if a read from the
+  /// stream returned here initiates a read somewhere else then cancelling
+  /// the original read should cancel this other read appropriately or buffer
+  /// the results.
   @since(version = 0.3.0-rc-2025-08-15)
   get-stdin: func() -> stream<u8>;
 }
 
 @since(version = 0.3.0-rc-2025-08-15)
 interface stdout {
+  /// Appends the provided stream of data to the "stdout" of this component.
+  ///
+  /// This function will cause the host/embedder to read from the `data` byte
+  /// stream provided and write the output to a component's stdout. What
+  /// exactly stdout is depends on the implementor but it could possibly be
+  /// backed by any of the following:
+  ///
+  /// * A console terminal screen
+  /// * A file via shell redirection
+  /// * Another stream from another component in virtualization scenarios
+  ///
+  /// Writes to stdout may be blocked if the system is unable to accept and/or
+  /// buffer any more bytes from stdout. Implementors are encouraged to only
+  /// complete a write once the bytes have been fully flushed out to the
+  /// destination in interactive situations as this API is frequently used
+  /// for debugging.
   @since(version = 0.3.0-rc-2025-08-15)
   append-stdout: func(data: stream<u8>);
 }
 
 @since(version = 0.3.0-rc-2025-08-15)
 interface stderr {
+  /// Appends the provided stream of data to the "stderr" of this component.
+  ///
+  /// This function will cause the host/embedder to read from the `data` byte
+  /// stream provided and write the output to a component's stderr. What
+  /// exactly stderr is depends on the implementor but it could possibly be
+  /// backed by any of the following:
+  ///
+  /// * A console terminal screen
+  /// * A file via shell redirection
+  /// * Another stream from another component in virtualization scenarios
+  ///
+  /// Writes to stderr may be blocked if the system is unable to accept and/or
+  /// buffer any more bytes from stderr. Implementors are encouraged to only
+  /// complete a write once the bytes have been fully flushed out to the
+  /// destination in interactive situations as this API is frequently used
+  /// for debugging.
   @since(version = 0.3.0-rc-2025-08-15)
   append-stderr: func(data: stream<u8>);
 }
