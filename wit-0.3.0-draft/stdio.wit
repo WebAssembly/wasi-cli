@@ -42,6 +42,11 @@ interface stdout {
   /// complete a write once the bytes have been fully flushed out to the
   /// destination in interactive situations as this API is frequently used
   /// for debugging.
+  ///
+  /// If this function is called multiple times then the true output of this
+  /// component will be an interleaving of all the various streams together
+  /// as data from them becomes ready. If two streams appended here are ready
+  /// at the same time with data then it's not specified which one comes first.
   @since(version = 0.3.0-rc-2025-08-15)
   append-stdout: func(data: stream<u8>);
 }
@@ -64,6 +69,11 @@ interface stderr {
   /// complete a write once the bytes have been fully flushed out to the
   /// destination in interactive situations as this API is frequently used
   /// for debugging.
+  ///
+  /// If this function is called multiple times then the true output of this
+  /// component will be an interleaving of all the various streams together
+  /// as data from them becomes ready. If two streams appended here are ready
+  /// at the same time with data then it's not specified which one comes first.
   @since(version = 0.3.0-rc-2025-08-15)
   append-stderr: func(data: stream<u8>);
 }
